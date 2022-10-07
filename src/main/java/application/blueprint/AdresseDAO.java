@@ -1,5 +1,8 @@
 package application.blueprint;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -47,9 +50,28 @@ public class AdresseDAO {
 		
 		
 		public static void insertAdresse (String ort, Integer plz, String strasse, Integer hr) throws SQLException, ClassNotFoundException{
-			String updateStmt = "INSERT INTO adresse (AdrNr, Ort, PLZ, Str, HsNr) VALUES (null,'" + ort + "','" + plz +"','" + strasse +"','" + hr  +"');";
+			//String updateStmt = "INSERT INTO adresse (AdrNr, Ort, PLZ, Str, HsNr) VALUES (null,'" + ort + "','" + plz +"','" + strasse +"','" + hr  +"');";
+			
+			final String prpstmt = "INSERT INTO adresse (AdrNr, Ort, PLZ, Str, HsNr) VALUES (null, ?, ?, ?, ?);";
+			
+			
+			
 			try {
-				DBUtil.dbExcequteUpdate(updateStmt);
+				String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
+				String user = "root";
+				String pass = "";
+				
+				Connection conn = DriverManager.getConnection(url, user, pass);
+				PreparedStatement prp = conn.prepareStatement(prpstmt);
+				prp.setString(1, ort);
+				prp.setInt(2, plz);
+				prp.setString(3, strasse);
+				prp.setInt(4, hr);
+				
+				int rows = prp.executeUpdate();
+				System.out.println("betroffene Zeilen: "+rows);
+				
+				//DBUtil.dbExcequteUpdate(updateStmt);
 			} catch (SQLException e) {
 				System.out.print("Fehler während der DELETE Operation: " +e);
 				throw e;

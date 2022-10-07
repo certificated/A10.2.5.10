@@ -22,14 +22,14 @@ public class AdresseSetupController {
 	    private TextField adrid;
 	    @FXML
 	    private TextArea resultArea;
+	    @FXML 
+	    public TextField ort;
 	    @FXML
-	    private TextField ort;
+	    public TextField plz;
 	    @FXML
-	    private TextField plz;
+	    public TextField strasse;
 	    @FXML
-	    private TextField strasse;
-	    @FXML
-	    private TextField hr;
+	    public TextField hr;
 	   
 	    
 	    

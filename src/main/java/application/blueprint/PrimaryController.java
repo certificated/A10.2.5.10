@@ -3,6 +3,7 @@ package application.blueprint;
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javafx.collections.FXCollections;
@@ -27,6 +28,10 @@ import application.blueprint.DBUtil;
 import application.blueprint.KundeDAO;
 import application.blueprint.Kunde;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
 public class PrimaryController {
 
 	
@@ -45,21 +50,20 @@ public class PrimaryController {
     @FXML
 	private TableView<Kunde> kundenTable= new TableView<>();
    
-	
 	@FXML
-	private TableColumn<Kunde , Integer> kundeID= new TableColumn<>();
+	private TableColumn<Kunde , Integer> kundeID = new TableColumn<>();
 	
 	@FXML
 	private TableColumn<Kunde, String> kundeNachname = new TableColumn<>();
 	
 	@FXML
-	private TableColumn<Kunde, String> kundeVorname= new TableColumn<>();
+	private TableColumn<Kunde, String> kundeVorname = new TableColumn<>();
 	
 	@FXML 
-	private TableColumn<Kunde, String> kundeEmail= new TableColumn<>();
+	private TableColumn<Kunde, String> kundeEmail = new TableColumn<>();
 	
 	@FXML
-	private TableColumn<Kunde, String> kundetel= new TableColumn<>();
+	private TableColumn<Kunde, String> kundetel = new TableColumn<>();
 	
 	
 	
@@ -139,6 +143,15 @@ public class PrimaryController {
 	
 	@FXML
 	private void UpdateKunde() throws SQLException {
+		
+		//Connection con = null;
+		
+		String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
+		String user = "root";
+		String pass = "";
+
+		
+		
 		int rowNum = kundenTable.getSelectionModel().getSelectedIndex();
 		
 		int kdnr = rowNum++;
@@ -153,12 +166,29 @@ public class PrimaryController {
 		
 		
 		
-		String stmt = "UPDATE kunde SET VName = '" +vorname+ 
+		/*String stmt = "UPDATE kunde SET VName = '" +vorname+ 
 				"' , NName = '" +nachname+ 
 				"' , email = '" +email+ 
 				"' , Tel = '"+tel+ 
 				"' WHERE KDNr = " + id;
-		DBUtil.dbExcequteUpdate(stmt);
+		*/
+		
+		final String prpstmt = "UPDATE kunde SET VName = ? , NName = ?  , email = ?  , Tel = ? WHERE KDNr = ?";
+		try {
+			Connection conn = DriverManager.getConnection(url, user, pass);
+			PreparedStatement prp = conn.prepareStatement(prpstmt);
+			prp.setString(1, vorname);
+			prp.setString(2, nachname);
+			prp.setString(3, email);
+			prp.setString(4, tel);
+			prp.setInt(5, id);
+			int rows = prp.executeUpdate();
+			System.out.println("betroffene Zeilen: "+rows);
+		} catch (Exception e) {
+			System.out.println("test");
+		}
+		//DBUtil.dbExcequteUpdate(stmt);
+		
 	}
 	
 	
@@ -471,12 +501,31 @@ public class PrimaryController {
 		
 		
 		
-		String stmt = "UPDATE adresse SET Ort = '" +ort+ 
+		/*String stmt = "UPDATE adresse SET Ort = '" +ort+ 
 				"' , PLZ = '" +plz+ 
 				"' , Str = '" +strasse+ 
 				"' , HsNr = '"+hn+ 
 				"' WHERE AdrNr = " + test;
-		DBUtil.dbExcequteUpdate(stmt);
+		DBUtil.dbExcequteUpdate(stmt);*/
+		
+		String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
+		String user = "root";
+		String pass = "";
+		
+		final String prpstmt = "UPDATE adresse SET Ort = ? , PLZ = ?  , Str = ?  , HsNr = ? WHERE AdrNr = ?";
+		try {
+			Connection conn = DriverManager.getConnection(url, user, pass);
+			PreparedStatement prp = conn.prepareStatement(prpstmt);
+			prp.setString(1, ort);
+			prp.setInt(2, plz);
+			prp.setString(3, strasse);
+			prp.setInt(4, hn);
+			prp.setInt(5, test);
+			int rows = prp.executeUpdate();
+			System.out.println("betroffene Zeilen: "+rows);
+		} catch (Exception e) {
+			System.out.println("test");
+		}
 	}
 	//
 	//kfz controlleroverview
@@ -548,14 +597,36 @@ public class PrimaryController {
 		
 		
 		
-		String stmt = "UPDATE kfz SET  Marke = '" +marke+ 
+		/*String stmt = "UPDATE kfz SET  Marke = '" +marke+ 
 				"' , Modell = '" +modell+ 
 				"' , HU = '" +hu+ 
 				"' , KennZ = '"+kennz+ 
 				"' , kmStand = '"+kmstand+
 				"' , ErstZul = '"+erstzul+
 				"' WHERE FI_ID = " + test;
-		DBUtil.dbExcequteUpdate(stmt);
+		DBUtil.dbExcequteUpdate(stmt);*/
+		
+		
+		String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
+		String user = "root";
+		String pass = "";
+		
+		final String prpstmt = "UPDATE kfz SET Marke = ? , Modell = ?  , HU = ?  , KennZ = ?, kmStand = ?, ErstZul = ? WHERE FI_ID = ?";
+		try {
+			Connection conn = DriverManager.getConnection(url, user, pass);
+			PreparedStatement prp = conn.prepareStatement(prpstmt);
+			prp.setString(1, marke);
+			prp.setString(2, modell);
+			prp.setString(3, hu);
+			prp.setString(4, kennz);
+			prp.setInt(5, kmstand);
+			prp.setString(6, erstzul);
+			prp.setInt(7, test);
+			int rows = prp.executeUpdate();
+			System.out.println("betroffene Zeilen: "+rows);
+		} catch (Exception e) {
+			System.out.println("test");
+		}
 	}
 	
 	
@@ -579,6 +650,7 @@ public class PrimaryController {
 	
 	//Funktionen für Stammdaten
 	//TODO
+	// Stammdaten werden keine neue Insert View bekommen weil das Anlegen von neuen Stammdaten keinen Sinn macht 
 		@FXML
 		private void searchStammdaten (ActionEvent actionEvent) throws ClassNotFoundException, SQLException {
 			try {
@@ -615,11 +687,31 @@ public class PrimaryController {
 			
 			
 			
-			String stmt = "UPDATE stammdaten SET  BLZ = '" +blz+ 
+			/*String stmt = "UPDATE stammdaten SET  BLZ = '" +blz+ 
 					"' , Abgesang = '" +ab+ 
 					"' , Zahlungsbedingung = '" +zb+ 
 					"' WHERE Stamm_ID = " + test;
-			DBUtil.dbExcequteUpdate(stmt);
+			DBUtil.dbExcequteUpdate(stmt);*/
+			
+			
+			String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
+			String user = "root";
+			String pass = "";
+			
+			final String prpstmt = "UPDATE stammdaten SET BLZ = ? , Abgesang = ?  , Zahlungsbedingung = ? WHERE Stamm_ID = ?";
+			try {
+				Connection conn = DriverManager.getConnection(url, user, pass);
+				PreparedStatement prp = conn.prepareStatement(prpstmt);
+				prp.setInt(1, blz);
+				prp.setString(2, ab);
+				prp.setString(3, zb);
+				
+				prp.setInt(4, test);
+				int rows = prp.executeUpdate();
+				System.out.println("betroffene Zeilen: "+rows);
+			} catch (Exception e) {
+				System.out.println("test");
+			}
 		}
 	
 	

@@ -1,9 +1,12 @@
 package application.blueprint;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -15,6 +18,17 @@ import application.blueprint.KundeDAO;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.function.Predicate;
+
+
+
+
+
+
+
+
+
+
 
 public class KundeSetupController {
 	
@@ -31,13 +45,13 @@ public class KundeSetupController {
 	}
 	*/
 	@FXML
-	private Button kdInsert;
+	private Button kdInsert = new Button("Submit");
 	@FXML
     private TextField kdIdText;
     @FXML
     private TextArea resultArea;
     @FXML
-    private TextField kdEmail;
+    private TextField kdEmail = new ValidatingTextField(input-> input.contains("a"));;
     @FXML
     private TextField kdNachname;
     @FXML
@@ -64,6 +78,8 @@ public class KundeSetupController {
 	private TableColumn<Kunde, String> kundetel;
 	
 	//wir wollen noch nicht searchEmployees
+	
+	
 	
 	private void initialize() {
 		kundeID.setCellValueFactory(cellData -> cellData.getValue().kundeidproperty().asObject());
@@ -112,6 +128,26 @@ public class KundeSetupController {
 	private void switchToOverview () throws SQLException, ClassNotFoundException, IOException {
 		MainExtender.setRoot("primary");
 	}
+	
+	
+	
+	
+	
+	private static class ValidatingTextField extends TextField {
+		private final Predicate<String> validation;
+		private BooleanProperty isValidProperty = new SimpleBooleanProperty();
+		
+		ValidatingTextField(Predicate<String> validation) {
+			this.validation = validation;
+			
+			textProperty().addListener((o,oldValue, newText) -> {
+				isValidProperty.set(validation.test(newText));
+			});
+			
+			isValidProperty.set(validation.test(""));
+		}
+	}
+	
 	
 	
 }

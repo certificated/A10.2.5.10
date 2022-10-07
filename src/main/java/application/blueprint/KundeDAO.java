@@ -3,6 +3,10 @@ package application.blueprint;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import application.blueprint.DBUtil;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -114,9 +118,26 @@ public class KundeDAO {
 	
 	//unfertig später bearbeiten
 	public static void insertKd (String vorName, String nachName, String email, String tel) throws SQLException, ClassNotFoundException{
-		String updateStmt = "INSERT INTO kunde (KDNr, VName, NName, email, Tel) VALUES (null , '" + vorName + "','" + nachName + "','" + email +"','" + tel +"');";
+		//String updateStmt = "INSERT INTO kunde (KDNr, VName, NName, email, Tel) VALUES (null , '" + vorName + "','" + nachName + "','" + email +"','" + tel +"');";
+		
+		String prpstmt = "INSERT INTO kunde (KDNr, VName, NName, email, Tel) VALUES (null , ?, ?, ?, ?);";
+		
+		String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
+		String user = "root";
+		String pass = "";
+		
 		try {
-			DBUtil.dbExcequteUpdate(updateStmt);
+			Connection conn = DriverManager.getConnection(url, user, pass);
+			PreparedStatement prp = conn.prepareStatement(prpstmt);
+			prp.setString(1, vorName);
+			prp.setString(2, nachName);
+			prp.setString(3, email);
+			prp.setString(4, tel);
+			
+			int rows = prp.executeUpdate();
+			System.out.println("betroffene Zeilen: "+rows);
+			
+			//DBUtil.dbExcequteUpdate(updateStmt);
 		} catch (SQLException e) {
 			System.out.print("Fehler während der DELETE Operation: " +e);
 			throw e;
