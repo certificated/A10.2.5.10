@@ -72,11 +72,11 @@ public class KFZDAO {
 				prp.setString(7, erstzul);
 				
 				int rows = prp.executeUpdate();
-				System.out.println("betroffene Zeilen: "+rows);
+				System.out.println("betroffene Zeilen: " + rows);
 				
 				//DBUtil.dbExcequteUpdate(updateStmt);
 			} catch (SQLException e) {
-				System.out.print("Fehler während der DELETE Operation: " +e);
+				System.out.print("Fehler während der DELETE Operation: " + e);
 				throw e;
 			}
 			

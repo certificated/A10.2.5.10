@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,11 +16,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -64,6 +67,9 @@ public class PrimaryController {
 	
 	@FXML
 	private TableColumn<Kunde, String> kundetel = new TableColumn<>();
+	
+	@FXML
+	private Button Rechnung = new Button();
 	
 	
 	
@@ -165,8 +171,8 @@ public class PrimaryController {
 		int id = kundeID.getCellData(kdnr);
 		
 		
-		
-		/*String stmt = "UPDATE kunde SET VName = '" +vorname+ 
+		/*
+		 * String stmt = "UPDATE kunde SET VName = '" +vorname+ 
 				"' , NName = '" +nachname+ 
 				"' , email = '" +email+ 
 				"' , Tel = '"+tel+ 
@@ -191,6 +197,57 @@ public class PrimaryController {
 		
 	}
 	
+	//TODO TAB PANE schneeeeeeeeelllllllllllll
+	@FXML
+	private ChoiceBox<String> artikelBox;
+	
+	@FXML
+	private TableView<Posten> artikelTable = new TableView();
+	
+	@FXML
+	private void submitArtikel(ActionEvent actionEvent) throws ClassNotFoundException, SQLException {
+		con();
+		try {
+			//con();
+			//DBUtil.dbConnect();
+			//changeGreen();
+			ObservableList<Posten> psData = PostenDAO.searchPosten();
+		
+		populatePosten(psData); 
+		}
+		catch(SQLException e) {
+			throw e;
+		}
+	}
+		
+		private void populatePosten (ObservableList<Posten> psData) throws ClassNotFoundException {
+			artikelTable.setItems(psData);
+			
+		}
+	
+   
+	@FXML
+	private TableColumn<Posten , Integer> artid = new TableColumn<>();
+	
+	@FXML
+	private TableColumn<Posten, String> artname = new TableColumn<>();
+	
+	@FXML
+	private TableColumn<Posten, String> artbeschreibung = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<Posten, Date> artab = new TableColumn<>();
+	
+	@FXML
+	private TableColumn<Posten, Integer> artpreis = new TableColumn<>();
+	
+	@FXML
+	public void newDate() throws ClassNotFoundException, SQLException {
+		String stmt = "SELECT * FROM posten ORDER BY datum;";
+		
+		DBUtil.dbExcecuteQuery(stmt);
+	}
+	
 	
 	@FXML
 	private void initialize() throws Exception {
@@ -206,6 +263,14 @@ public class PrimaryController {
 		//String Stmt = "UPDATE kunde SET VName = " +t+ "";
 			//kfz onaction noch leer
 			//kunde
+			
+		artikelBox.getItems().add("Reifen");
+		
+		
+		
+		artid.setCellValueFactory(cellData -> cellData.getValue().artidproperty().asObject());
+		artab.setCellValueFactory(new PropertyValueFactory <Posten, Date>("artab"));
+		
 		kundeID.setCellValueFactory(cellData -> cellData.getValue().kundeidproperty().asObject());
 		
 		kundeVorname.setCellValueFactory(cellData -> cellData.getValue().vornameproperty());
@@ -497,7 +562,7 @@ public class PrimaryController {
 		
 		
 		
-		int test = adrNr.getCellData(kdnr);
+		int adrnr = adrNr.getCellData(kdnr);
 		
 		
 		
@@ -520,7 +585,7 @@ public class PrimaryController {
 			prp.setInt(2, plz);
 			prp.setString(3, strasse);
 			prp.setInt(4, hn);
-			prp.setInt(5, test);
+			prp.setInt(5, adrnr);
 			int rows = prp.executeUpdate();
 			System.out.println("betroffene Zeilen: "+rows);
 		} catch (Exception e) {
@@ -593,9 +658,7 @@ public class PrimaryController {
 		int kmstand = kfzKmStand.getCellData(kdnr);
 		String erstzul = kfzErstZul.getCellData(kdnr);
 		
-		int test = kfzNr.getCellData(kdnr);
-		
-		
+		int kfznr = kfzNr.getCellData(kdnr);
 		
 		/*String stmt = "UPDATE kfz SET  Marke = '" +marke+ 
 				"' , Modell = '" +modell+ 
@@ -621,7 +684,7 @@ public class PrimaryController {
 			prp.setString(4, kennz);
 			prp.setInt(5, kmstand);
 			prp.setString(6, erstzul);
-			prp.setInt(7, test);
+			prp.setInt(7, kfznr);
 			int rows = prp.executeUpdate();
 			System.out.println("betroffene Zeilen: "+rows);
 		} catch (Exception e) {
@@ -668,8 +731,7 @@ public class PrimaryController {
 		}
 		
 		private void populateStammdaten (ObservableList<Stammdaten> stammData) throws ClassNotFoundException {
-			stammTable.setItems(stammData);
-			
+			stammTable.setItems(stammData);	
 		}
 		
 		@FXML
@@ -681,7 +743,6 @@ public class PrimaryController {
 			int blz = stammBlz.getCellData(kdnr);
 			String ab = stammAb.getCellData(kdnr);
 			String zb = stammZb.getCellData(kdnr);
-			
 			
 			int test = stammId.getCellData(kdnr);
 			
@@ -705,7 +766,6 @@ public class PrimaryController {
 				prp.setInt(1, blz);
 				prp.setString(2, ab);
 				prp.setString(3, zb);
-				
 				prp.setInt(4, test);
 				int rows = prp.executeUpdate();
 				System.out.println("betroffene Zeilen: "+rows);
@@ -760,6 +820,11 @@ public class PrimaryController {
     	kdData.add(kd);
     	kundenTable.setItems(kdData);
     }
+	
+	
+	
+	
+	
     
    
     

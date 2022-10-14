@@ -98,6 +98,6 @@ public class KFZSetupController {
 	
 	@FXML
 	private void switchToOverview () throws SQLException, ClassNotFoundException, IOException {
-		MainExtender.setRoot("primary");
+		MainExtender.setRoot("primary2");
 	}
 }

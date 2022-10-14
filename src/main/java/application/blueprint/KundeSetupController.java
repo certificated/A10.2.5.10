@@ -14,21 +14,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import application.blueprint.Kunde;
 import application.blueprint.KundeDAO;
+import javafx.fxml.Initializable;
 
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.function.Predicate;
-
-
-
-
-
-
-
-
-
-
 
 public class KundeSetupController {
 	
@@ -51,7 +42,7 @@ public class KundeSetupController {
     @FXML
     private TextArea resultArea;
     @FXML
-    private TextField kdEmail = new ValidatingTextField(input-> input.contains("a"));;
+    private TextField kdEmail = new ValidatingTextField(input-> input.contains("a"));
     @FXML
     private TextField kdNachname;
     @FXML
@@ -63,30 +54,47 @@ public class KundeSetupController {
 	private TableView KundenTable;
 	
 	@FXML
-	private TableColumn<Kunde , Integer> kundeID;
+	private TableView<Kunde> kundenTable= new TableView<>();
+   
+	@FXML
+	private TableColumn<Kunde , Integer> kundeID = new TableColumn<>();
 	
 	@FXML
-	private TableColumn<Kunde, String> kundeNachname;
+	private TableColumn<Kunde, String> kundeNachname = new TableColumn<>();
 	
 	@FXML
-	private TableColumn<Kunde, String> kundeVorname;
+	private TableColumn<Kunde, String> kundeVorname = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<Kunde, String> kundeEmail = new TableColumn<>();
 	
 	@FXML
-	private TableColumn<Kunde, String> kundeEmail;
-	
-	@FXML
-	private TableColumn<Kunde, String> kundetel;
+	private TableColumn<Kunde, String> kundetel = new TableColumn<>();
 	
 	//wir wollen noch nicht searchEmployees
 	
 	
+	//ResultSet rset = databaseMetaData.getImportedKeys("KD_ID");
 	
-	private void initialize() {
+	@FXML
+	private void con() {
+		DBUtil.dbConnect();
+		
+	}
+	@FXML
+	private void initialize() throws ClassNotFoundException, SQLException {
 		kundeID.setCellValueFactory(cellData -> cellData.getValue().kundeidproperty().asObject());
 		kundeNachname.setCellValueFactory(cellData -> cellData.getValue().nachnameproperty());
 		kundeVorname.setCellValueFactory(cellData -> cellData.getValue().vornameproperty());
 		kundeEmail.setCellValueFactory(cellData -> cellData.getValue().emailproperty());
 		kundetel.setCellValueFactory(cellData -> cellData.getValue().telproperty());
+		
+		con();
+		//changeGreen();
+		ObservableList<Kunde> kdData = KundeDAO.searchKunden();
+	
+	populateKunden(kdData);
+		
 	}
 	
 	@FXML
@@ -100,6 +108,8 @@ public class KundeSetupController {
 	private void setKdInfoToTextArea (Kunde kd) {
 		resultArea.setText("Vorname: " + kd.getvorname() + "\n" + "Nachname" +kd.getnachname());
 	}
+	
+	// kunde Datensätze werden über die Tablle eingeblendet
 	
 	@FXML
 	private void populateAndShowKunde(Kunde kd) throws ClassNotFoundException{
@@ -117,6 +127,8 @@ public class KundeSetupController {
 		KundenTable.setItems(kdData);
 	}
 	
+	// übernahme von den eingabewerten für den neuen Datensatz
+	
 	@FXML
 	private void kundeEintragen (ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
 		KundeDAO.insertKd(kdNachname.getText(), kdVorname.getText(), kdEmail.getText(), kdTelefon.getText());
@@ -126,12 +138,11 @@ public class KundeSetupController {
 
 	@FXML
 	private void switchToOverview () throws SQLException, ClassNotFoundException, IOException {
-		MainExtender.setRoot("primary");
+		MainExtender.setRoot("primary2");
 	}
 	
 	
-	
-	
+	// filter für eingabe
 	
 	private static class ValidatingTextField extends TextField {
 		private final Predicate<String> validation;

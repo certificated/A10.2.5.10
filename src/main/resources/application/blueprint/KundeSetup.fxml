@@ -10,13 +10,13 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="1026.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.blueprint.KundeSetupController">
    <children>
       <Button fx:id="switchToOverview" layoutX="14.0" layoutY="31.0" mnemonicParsing="false" onAction="#switchToOverview" text="&lt;- Zurück zur Übersicht" />
-      <TableView layoutX="220.0" layoutY="117.0" prefHeight="402.0" prefWidth="794.0">
+      <TableView fx:id="KundenTable" layoutX="220.0" layoutY="117.0" prefHeight="402.0" prefWidth="794.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="ID" />
-          <TableColumn prefWidth="183.20001220703125" text="Vorname" />
-            <TableColumn prefWidth="191.199951171875" text="Nachname" />
-            <TableColumn prefWidth="164.800048828125" text="E-Mail" />
-            <TableColumn prefWidth="177.59995117187498" text="Telefon" />
+          <TableColumn fx:id="kundeID" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="kundeVorname" prefWidth="183.20001220703125" text="Vorname" />
+            <TableColumn fx:id="kundeNachname" prefWidth="191.199951171875" text="Nachname" />
+            <TableColumn fx:id="kundeEmail" prefWidth="164.800048828125" text="E-Mail" />
+            <TableColumn fx:id="kundetel" prefWidth="177.59995117187498" text="Telefon" />
         </columns>
       </TableView>
       <TextField fx:id="kdVorname" layoutX="375.0" layoutY="75.0" promptText="Vorname" />
