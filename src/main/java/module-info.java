@@ -8,7 +8,13 @@ module application.blueprint {
 	requires java.sql;
 	requires transitive javafx.base;
 
-    opens application.blueprint to javafx.fxml;
+	opens DAO to javafx.fxml;
+	opens controller to javafx.fxml;
+	opens application.blueprint to javafx.fxml;
+     exports controller;
     exports application.blueprint;
+    exports DAO;
+    opens Class to javafx.fxml;
+    exports Class;
 }
 

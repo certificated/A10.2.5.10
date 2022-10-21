@@ -15,9 +15,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="1029.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.blueprint.PrimaryController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="1029.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PrimaryController">
   <tabs>
     <Tab text="Übersicht">
+    
          <content>
             <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="1029.0">
                <content>
@@ -115,8 +116,12 @@
                <children>
                   <TableView layoutX="302.0" layoutY="146.0" prefHeight="245.0" prefWidth="707.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
+                      <TableColumn prefWidth="100.0" text="Rechnungs NR." />
+                      <TableColumn prefWidth="120.00006103515625" text="Rechnungsdatum" />
+                        <TableColumn minWidth="3.20001220703125" prefWidth="84.79998779296875" text="Kunde" />
+                        <TableColumn minWidth="0.0" prefWidth="124.0" />
+                        <TableColumn minWidth="0.0" prefWidth="74.39996337890625" text="C2" />
+                        <TableColumn prefWidth="144.00006103515625" text="C2" />
                     </columns>
                   </TableView>
                   <TextField layoutX="377.0" layoutY="108.0" />
@@ -141,8 +146,9 @@
                     </columns>
                   </TableView>
                   <ChoiceBox fx:id="artikelBox" layoutX="31.0" layoutY="134.0" prefWidth="150.0" />
-                  <Button fx:id="submitArtikel" layoutX="31.0" layoutY="189.0" mnemonicParsing="false" onAction="#submitArtikel" text="Button" />
-                  <Button fx:id="newDate" layoutX="31.0" layoutY="244.0" mnemonicParsing="false" onAction="#newDate" text="Button" />
+                  <Button fx:id="submitArtikel" layoutX="31.0" layoutY="189.0" mnemonicParsing="false" onAction="#submitArtikel" text="artikel anzeigen" />
+                  <Button layoutX="31.0" layoutY="244.0" mnemonicParsing="false" text="sortieren" />
+                  <TextField layoutX="32.0" layoutY="86.0" promptText="Datum eingeben" />
                </children>
             </AnchorPane>
          </content>

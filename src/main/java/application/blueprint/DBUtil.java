@@ -21,7 +21,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import java.sql.*;
-import application.blueprint.PrimaryController;
 
 
 public class DBUtil {

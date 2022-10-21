@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
-import application.blueprint.DBUtil;
 
 
 /**
@@ -19,6 +18,7 @@ public class MainExtender extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary2"));
+        scene.setRoot(loadFXML("primary2"));
         stage.setScene(scene);
         stage.show();
     }
