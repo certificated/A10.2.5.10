@@ -28,9 +28,14 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -38,8 +43,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.sql.Connection;
@@ -57,6 +64,7 @@ public class PrimaryController {
 	private TextField Filter2;
 	@FXML
 	private TextField Filter3;
+	
 	@FXML
 	TextFieldTableCell<Kunde, String> cell = new TextFieldTableCell<>();
 	
@@ -210,7 +218,7 @@ public class PrimaryController {
 	}
 	
 	//TODO TAB PANE schneeeeeeeeelllllllllllll
-	//Choice BOX
+	// Choice BOX für die Artikelauswahl
 	@FXML
 	private ChoiceBox<String> artikelBox;
 	
@@ -289,21 +297,21 @@ public class PrimaryController {
 	            SimpleDateFormat sdf =  new SimpleDateFormat("MMM-dd-yyyy hh:mm:ss a"); // today
 	               Date d=null;
 	               Date d1=null;
-	            String today=   getToday("MMM-dd-yyyy hh:mm:ss a");
+	            String today = getToday("MMM-dd-yyyy hh:mm:ss a");
 	            try {
-	                //System.out.println("expdate>> "+date);
-	                //System.out.println("today>> "+today+"\n\n");
+	                // System.out.println("expdate>> "+date);
+	                // System.out.println("today>> "+today+"\n\n");
 	                d = sdf.parse(date);
 	                d1 = sdf.parse(today);
 	                System.out.println("alles erfolgreich gelaufen");
-	                if(d1.compareTo(d) <0){// not expired
+	                if(d1.compareTo(d) <0){ // not expired
 	                    return false;
-	                }else if(d.compareTo(d1)==0){// both date are same
-	                            if(d.getTime() < d1.getTime()){// not expired
+	                }else if(d.compareTo(d1)==0){ // both date are same
+	                            if(d.getTime() < d1.getTime()){ // not expired
 	                                return false;
-	                            }else if(d.getTime() == d1.getTime()){//expired
+	                            }else if(d.getTime() == d1.getTime()){ //expired
 	                                return true;
-	                            }else{//expired
+	                            }else{ //expired
 	                                return true;
 	                                
 	                            }
@@ -325,7 +333,27 @@ public class PrimaryController {
 	     Date date = new Date();
 	     return new SimpleDateFormat(format).format(date);
 	 }
-	
+	  
+	  @FXML
+	  static
+	  TabPane tabPane = new TabPane();
+	  
+	  Tab tab1 = new Tab();
+	  
+	  Tab tab2 = new Tab();
+	  
+	  static Tab tab3 = new Tab();
+	  
+	  @FXML
+	   public void getTab() {
+		  tabPane.getSelectionModel().select(tab3);
+	  }
+	  /*@FXML
+	  private void getTab() {
+	  tabPane.getTabs().addAll(new Tab("Tab1"), new Tab("tab2"), new Tab("Tab3"));
+	  
+	  tabPane.getSelectionModel().select("tab2");
+	  }*/
 	
 	@FXML
 	private void initialize() throws Exception {
@@ -868,11 +896,41 @@ public class PrimaryController {
 		
 	}
 	
+	
+	@FXML
+	private Button posten;
+	
+	
+	
+	
+	@FXML
+	void changePosten(ActionEvent event) throws IOException{
+		
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("primary3.fxml"));
+			//Pane root = FXMLLoader.load(getClass().getResource("primary3.fxml"));
+			Parent root1;
+			
+			root1 = (Parent) fxmlLoader.load();
+			//Scene root1;
+			Stage stage = new Stage();
+			stage.setTitle("test");
+			//root1.setRoot("primary3.fxml");
+			stage.setScene(new Scene(root1));
+			stage.show();
+			
+			//MainExtender.setRoot("primary3");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	@FXML
 	private Circle status;
 	
-	@FXML
-	private void con() {
+	@FXML  void con() {
 		DBUtil.dbConnect();
 		changeGreen();
 		dbArea.setText("Datenbankverbindung wurde erfolgreich hergestellt");

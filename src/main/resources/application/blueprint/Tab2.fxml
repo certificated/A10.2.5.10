@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="408.0" prefWidth="1023.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Tab2Controller">
+               
+                  <TableView layoutX="302.0" layoutY="146.0" prefHeight="245.0" prefWidth="707.0">
+                    <columns>
+                      <TableColumn prefWidth="100.0" text="Rechnungs NR." />
+                      <TableColumn prefWidth="120.00006103515625" text="Rechnungsdatum" />
+                        <TableColumn minWidth="3.20001220703125" prefWidth="84.79998779296875" text="Kunde" />
+                        <TableColumn minWidth="0.0" prefWidth="124.0" />
+                        <TableColumn minWidth="0.0" prefWidth="74.39996337890625" text="C2" />
+                        <TableColumn prefWidth="144.00006103515625" text="C2" />
+                    </columns>
+                  </TableView>
+                  <TextField layoutX="377.0" layoutY="108.0" />
+                  <Label layoutX="327.0" layoutY="112.0" text="Suche" />
+                  <Button fx:id="nRechnungSelect" layoutX="14.0" layoutY="108.0" mnemonicParsing="false" onAction="#getTab" text="Neue Rechnung mit vorhandenen Daten erstellen" />
+                  <Button layoutX="14.0" layoutY="146.0" mnemonicParsing="false" text="Neue Rechnung mit neuen Daten erstellen" />
+               </AnchorPane>

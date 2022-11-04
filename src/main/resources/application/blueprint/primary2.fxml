@@ -111,7 +111,8 @@
          </content>
     </Tab>
     <Tab text="Rechnungen">
-      <content>
+        <fx:include source="Tab2.fxml"/>
+      <!--  <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <TableView layoutX="302.0" layoutY="146.0" prefHeight="245.0" prefWidth="707.0">
@@ -130,10 +131,11 @@
                   <Button layoutX="14.0" layoutY="146.0" mnemonicParsing="false" text="Neue Rechnung mit neuen Daten erstellen" />
                   <Accordion layoutX="34.0" layoutY="231.0" />
                </children></AnchorPane>
-      </content>
+      </content>-->
     </Tab>
       <Tab text="Kalkulation">
-         <content>
+         <!--  <fx:include source="Tab3.fxml"/>-->
+          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <TableView fx:id="artikelTable" layoutX="223.0" layoutY="134.0" prefHeight="270.0" prefWidth="718.0">
@@ -149,6 +151,7 @@
                   <Button fx:id="submitArtikel" layoutX="31.0" layoutY="189.0" mnemonicParsing="false" onAction="#submitArtikel" text="artikel anzeigen" />
                   <Button layoutX="31.0" layoutY="244.0" mnemonicParsing="false" text="sortieren" />
                   <TextField layoutX="32.0" layoutY="86.0" promptText="Datum eingeben" />
+                  <Button fx:id="posten" layoutX="42.0" layoutY="307.0" mnemonicParsing="false" onAction="#changePosten" text="Posten" />
                </children>
             </AnchorPane>
          </content>

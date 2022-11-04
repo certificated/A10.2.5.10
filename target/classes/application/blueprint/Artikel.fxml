@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="452.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PostenController">
+   <children>
+      <TableView fx:id="artikelTable" layoutX="224.0" layoutY="147.0" prefHeight="191.0" prefWidth="678.0">
+         <columns>
+            <TableColumn fx:id="artid" prefWidth="119.20002746582031" text="Artikel Nummer" />
+            <TableColumn fx:id="artname" prefWidth="234.4000244140625" text="Artikelname" />
+            <TableColumn fx:id="artbeschreibung" prefWidth="128.800048828125" text="gültig an" />
+            <TableColumn fx:id="artab" minWidth="0.0" prefWidth="96.0" text="preis" />
+            <TableColumn prefWidth="95.199951171875" text="Anzahl" />
+         </columns>
+      </TableView>
+      <ChoiceBox fx:id="artikelBox" layoutX="19.0" layoutY="243.0" prefWidth="150.0" />
+      <Button fx:id="submitArtikel" layoutX="32.0" layoutY="325.0" mnemonicParsing="false" onAction="#submitArtikel" text="artikel anzeigen" />
+      <Button layoutX="31.0" layoutY="364.0" mnemonicParsing="false" text="sortieren" />
+      <TextField fx:id="datum" layoutX="19.0" layoutY="163.0" prefHeight="26.0" prefWidth="150.0" promptText="Datum eingeben" />
+      <Label layoutX="224.0" layoutY="41.0" prefHeight="26.0" prefWidth="150.0" text="Adresse">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="224.0" layoutY="67.0" prefHeight="26.0" prefWidth="110.0" text="Datum">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="784.0" layoutY="59.0" prefHeight="26.0" prefWidth="123.0" text="Kunde">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="784.0" layoutY="90.0" prefHeight="26.0" prefWidth="123.0" text="KFZ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="224.0" layoutY="364.0" text="Gesamtpreis: ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="19.0" layoutY="217.0" text="Artikel hinzufügen" />
+      <TextField layoutX="181.0" layoutY="242.0" prefHeight="26.0" prefWidth="38.0" text="1" />
+      <Label layoutX="182.0" layoutY="217.0" text="Anzahl" />
+      <Button fx:id="back" layoutX="19.0" layoutY="34.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="83.0" text="&lt;- Zurück" />
+   </children>
+</AnchorPane>

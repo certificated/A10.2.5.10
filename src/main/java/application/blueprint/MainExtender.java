@@ -31,7 +31,6 @@ public class MainExtender extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
         
-        
     }
 
 	
