@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 
+import controller.PrimaryController;
 import Class.Adresse;
 import Class.KFZ;
 import Class.Kunde;
@@ -39,6 +40,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
@@ -52,9 +54,20 @@ public class Tab2Controller {
 	
 	@FXML
 	private void rechnungSelect() throws IOException {
-		MainExtender.setRoot("Artikel");
-		 
+		//MainExtender.setRoot("Artikel");
+		 Stage test = new Stage();
+		 //Scene scene1 = new Scene();
+		 test.initModality(Modality.APPLICATION_MODAL);
+		 //scene1.setRoot(MainExtender.loadFXML("Artikel.fxml"));
+		 //test.setScene();
+		 test.showAndWait();
 	}
+	
+	 @FXML
+	  public void Rechnung() throws IOException {
+	    	MainExtender.setRoot("Artikel");
+	    }
+	 
 	
 	
 	/*@FXML
@@ -67,12 +80,12 @@ public class Tab2Controller {
 	  Tab tab3 = new Tab();
 	  */
 	  @FXML
-	   public void getTab() {
+	   public void backTo2() throws IOException {
 		  
-			PrimaryController.tabPane.getSelectionModel().select(PrimaryController.tab3);
-		
+			//PrimaryController.tabPane.getSelectionModel().select(PrimaryController.tab3);
+		//PrimaryController.tab2();
 		  
-		  System.out.println("test");
+		  
 	  }
 	
 	

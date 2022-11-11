@@ -21,6 +21,6 @@
                   </TableView>
                   <TextField layoutX="377.0" layoutY="108.0" />
                   <Label layoutX="327.0" layoutY="112.0" text="Suche" />
-                  <Button fx:id="nRechnungSelect" layoutX="14.0" layoutY="108.0" mnemonicParsing="false" onAction="#getTab" text="Neue Rechnung mit vorhandenen Daten erstellen" />
-                  <Button layoutX="14.0" layoutY="146.0" mnemonicParsing="false" text="Neue Rechnung mit neuen Daten erstellen" />
+                  <Button fx:id="nRechnungSelect" layoutX="14.0" layoutY="108.0" mnemonicParsing="false" onAction="#rechnungSelect" text="Neue Rechnung mit vorhandenen Daten erstellen" />
+                  <Button fx:id="Rechnung" layoutX="14.0" layoutY="146.0" mnemonicParsing="false" onAction="#Rechnung" text="Neue Rechnung mit neuen Daten erstellen" />
                </AnchorPane>

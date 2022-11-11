@@ -113,10 +113,11 @@ public class PostenController {
 		private Button back;
 		
 		@FXML
-		private void back() throws IOException {
-			
-			//PrimaryController.getTab();
-			
-			//MainExtender.setRoot("");
-		}
+		   public void backTo2() throws IOException {
+			  
+				//PrimaryController.tabPane.getSelectionModel().select(PrimaryController.tab3);
+			//PrimaryController.tab2();
+			  
+			  
+		  }
 }

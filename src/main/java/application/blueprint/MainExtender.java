@@ -21,13 +21,16 @@ public class MainExtender extends Application {
         scene.setRoot(loadFXML("primary2"));
         stage.setScene(scene);
         stage.show();
+        
+        
+        
     }
 
     public static void setRoot(String fxml) throws IOException {
     	scene.setRoot(loadFXML(fxml));
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
+    public static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
         

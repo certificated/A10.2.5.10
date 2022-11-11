@@ -6,17 +6,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="807.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TextField layoutX="187.0" layoutY="256.0" prefHeight="26.0" prefWidth="391.0" promptText="Suche" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="158.0" layoutX="187.0" layoutY="76.0" stroke="BLACK" strokeType="INSIDE" width="173.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="158.0" layoutX="404.0" layoutY="76.0" stroke="BLACK" strokeType="INSIDE" width="173.0" />
-      <TableView layoutX="33.0" layoutY="292.0" prefHeight="200.0" prefWidth="714.0">
-        <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
-        </columns>
+      <TextField layoutX="33.0" layoutY="257.0" prefHeight="26.0" prefWidth="391.0" promptText="Suche" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="158.0" layoutX="33.0" layoutY="61.0" stroke="BLACK" strokeType="INSIDE" width="173.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="158.0" layoutX="763.0" layoutY="70.0" stroke="BLACK" strokeType="INSIDE" width="173.0" />
+      <TableView fx:id="kundenTable" editable="true" layoutX="22.0" layoutY="311.0" prefHeight="156.0" prefWidth="670.0">
+         <columns>
+            <TableColumn fx:id="kundeID" onEditCancel="#UpdateKunden" onEditCommit="#UpdateKunden" prefWidth="86.39996337890625" text="KundenNR" />
+            <TableColumn fx:id="kundeNachname" onEditCommit="#UpdateKunden" prefWidth="136.79998779296875" text="Nachname" />
+            <TableColumn fx:id="kundeVorname" onEditCancel="#UpdateKunden" onEditCommit="#UpdateKunden" prefWidth="150.40003967285156" text="Vorname" />
+            <TableColumn fx:id="kundeEmail" onEditCommit="#UpdateKunden" prefWidth="159.99993896484375" text="E-Mail" />
+            <TableColumn fx:id="kundetel" onEditCommit="#UpdateKunden" prefWidth="135.0" text="Telefon Nummer" />
+         </columns>
       </TableView>
    </children>
 </AnchorPane>

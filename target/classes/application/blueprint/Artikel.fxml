@@ -52,6 +52,6 @@
       <Label layoutX="19.0" layoutY="217.0" text="Artikel hinzufügen" />
       <TextField layoutX="181.0" layoutY="242.0" prefHeight="26.0" prefWidth="38.0" text="1" />
       <Label layoutX="182.0" layoutY="217.0" text="Anzahl" />
-      <Button fx:id="back" layoutX="19.0" layoutY="34.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="83.0" text="&lt;- Zurück" />
+      <Button fx:id="back" layoutX="19.0" layoutY="34.0" mnemonicParsing="false" onAction="#backTo2" prefHeight="26.0" prefWidth="83.0" text="&lt;- Zurück" />
    </children>
 </AnchorPane>

@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 import Class.Adresse;
@@ -21,6 +22,7 @@ import DAO.PostenDAO;
 import DAO.StammdatenDAO;
 import application.blueprint.DBUtil;
 import application.blueprint.MainExtender;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -34,11 +36,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -113,7 +119,8 @@ public class PrimaryController {
 		}
 	}
 	
-	
+	@FXML
+	DatePicker d = new DatePicker();
 	
 	@FXML
 	   private void UpdateKunden() {
@@ -209,7 +216,7 @@ public class PrimaryController {
 			prp.setString(4, tel);
 			prp.setInt(5, id);
 			int rows = prp.executeUpdate();
-			System.out.println("betroffene Zeilen: "+rows);
+			System.out.println("betroffene Zeilen: "+ rows);
 		} catch (Exception e) {
 			System.out.println("test");
 		}
@@ -218,6 +225,57 @@ public class PrimaryController {
 	}
 	
 	//TODO TAB PANE schneeeeeeeeelllllllllllll
+	
+	  @FXML
+	  TabPane tabPane = new TabPane();
+	  @FXML
+	  Tab tab1 = new Tab();
+	  @FXML
+	  Tab tab2 = new Tab();
+	  @FXML
+	  Tab tab3 = new Tab();
+	  @FXML
+	  Tab tab4 = new Tab();
+	  
+	  @FXML
+	   public void getTab() {
+		  //tabPane.getSelectionModel().select(tab3);
+		  int Tab = tabPane.getSelectionModel().getSelectedIndex() + 1;
+		  //System.out.println(tabPane.getSelectionModel().getSelectedIndex());
+		  //System.out.println(Tab);
+		  //SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+		  tabPane.getSelectionModel().select(tab2); 
+		  
+		  
+	  }
+	  @FXML
+	  public void tab2() throws IOException {
+		  //SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+		  MainExtender.setRoot("primary2");
+		 try {
+			tabPane.getSelectionModel().select(tab3);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		  
+	  }
+	  
+	  //@FXML
+	  //public Button Rechnung = new Button();
+	  
+	  @FXML
+	  public void Rechnung() throws IOException {
+	    	MainExtender.setRoot("Artikel");
+	    }
+	  
+	  /*@FXML
+	  private void getTab() {
+	  tabPane.getTabs().addAll(new Tab("Tab1"), new Tab("tab2"), new Tab("Tab3"));
+	  
+	  tabPane.getSelectionModel().select("tab2");
+	  }*/
+	
+	
 	// Choice BOX für die Artikelauswahl
 	@FXML
 	private ChoiceBox<String> artikelBox;
@@ -278,6 +336,7 @@ public class PrimaryController {
 		System.out.println(date);
 		
 		
+		
 		//if (isExpire(date) == true) {
 			
 		//}
@@ -334,26 +393,97 @@ public class PrimaryController {
 	     return new SimpleDateFormat(format).format(date);
 	 }
 	  
-	  @FXML
-	  static
-	  TabPane tabPane = new TabPane();
+	  //kundenTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+	  //@Override
 	  
-	  Tab tab1 = new Tab();
 	  
-	  Tab tab2 = new Tab();
 	  
-	  static Tab tab3 = new Tab();
+	  // TODO aktuellen ausgewählten Wert in der Tabelle in ein Textfeld eintragen für später
 	  
-	  @FXML
-	   public void getTab() {
-		  tabPane.getSelectionModel().select(tab3);
-	  }
-	  /*@FXML
-	  private void getTab() {
-	  tabPane.getTabs().addAll(new Tab("Tab1"), new Tab("tab2"), new Tab("Tab3"));
-	  
-	  tabPane.getSelectionModel().select("tab2");
+	  /*private void getSelected(ObservableValue observableValue, Object oldValue, Object newValue) {
+		  if (kundenTable.getSelectionModel().getSelectedItem() != null) {
+			  TableViewSelectionModel selectionModel = kundenTable.getSelectionModel();
+			  ObservableList selectedCells = selectionModel.getSelectedCells();
+			  TablePosition tablePosition = (TablePosition) selectedCells.get(0);
+			  Object val = tablePosition.getTableColumn().getCellData(newValue);
+			  System.out.println("Selected Value" + val);
+		  }
 	  }*/
+	  
+	  @FXML
+	  private DatePicker datePicker;
+	  
+	  @FXML
+	  private TextArea DataField;
+	  
+	  @FXML
+	  public void getKunde(ActionEvent event) {
+		  //DataField.setText(kundenTable.getSelectionModel().toString());
+		  Kunde person = kundenTable.getSelectionModel().getSelectedItem();
+		  if (person.equals(null)) {
+			  DataField.setText("keinen Kunden ausgewählt");
+		  } else {
+			  int nr = person.getKundeid();
+			  String vname = person.getvorname();
+			  String nname = person.getnachname();
+			  String email = person.getemail();
+			  String tel = person.gettel();
+			  
+			  
+			  
+			  
+			  String kd = "Nummer: " +nr+ ", Vorname: " +vname+ ", Nachname: " +nname+ ", email: " +email+ ", tel: " +tel;
+			  
+			  DataField.setText(kd);
+					  
+		  }
+	  }
+	  
+	  @FXML
+	  public void getAdresse(ActionEvent event) {
+		  
+		  Adresse adresse = adrTable.getSelectionModel().getSelectedItem();
+		  if (adresse.equals(null)) {
+			  DataField.setText("keine Adresse ausgewählt!");
+		  }
+		  else {
+			  int nr = adresse.getadrid();
+			  String ort = adresse.getadrort();
+			  int ha = adresse.getadrhanr();
+			  String strasse = adresse.getadrstrasse();
+			  int plz = adresse.getadrplz();
+			   String adr = "Nummer: " +nr+ ", Ort: " +ort+ ", Haus NR: " +ha+ ", Straße: " +strasse+ ", PLZ: " +plz;
+			  DataField.setText(adr);
+			  
+		  }
+	  }
+	  
+	  @FXML
+	  public void getKFZ(ActionEvent event) {
+		  //DataField.setText(kfzTable.ger);
+		  KFZ kfz = kfzTable.getSelectionModel().getSelectedItem();
+		  if (kfz.equals(null)) {
+			  DataField.setText("kein Fahrzeug ausgewählz");
+		  } else {
+			  int nr = kfz.getkfzid();
+			  String t = kfz.getkfzmarke();
+			  String l = kfz.getkfzmodell();
+			  String o = kfz.getkfzhu();
+			  String i = kfz.getkfzhu();
+			  String p = kfz.getkfzerstzul();
+			  int km = kfz.getkfzkmstand();
+			 // String kfz = "Nummer" +nr+ ", Ort: " +ort+ ", Haus NR: " +ha+ ", Straße: " +strasse+ ", PLZ: " +plz;
+		  }
+	  }
+	  
+	  @FXML
+	  public void getDate(ActionEvent event) {
+	  LocalDate myDate = datePicker.getValue();
+	  DataField.setText(myDate.toString());
+	  
+	  }
+	  
+	 
 	
 	@FXML
 	private void initialize() throws Exception {
@@ -369,20 +499,29 @@ public class PrimaryController {
 		//String Stmt = "UPDATE kunde SET VName = " +t+ "";
 			//kfz onaction noch leer
 			//kunde
-		// die Auswahl an Posten	
+		
+			
+			//TODO ausgewählten Kunden aus der aktuellen TableView in ein Textfeld eintragen
+		ObservableList<Kunde> kdlist;
+		kdlist = kundenTable.getSelectionModel().getSelectedItems();
+		//TODO selbes wie in Zeile 435 	
+		System.out.println(kdlist.size());
+		
+		
+			// die Auswahl an Posten
 		artikelBox.getItems().add("Reifen");
 		artikelBox.getItems().add("Winterreifen");
 		artikelBox.getItems().add("Rückspiegel");
 		artikelBox.getItems().add("");
 		
 		
-		
-		artid.setCellValueFactory(cellData -> cellData.getValue().artidproperty().asObject());
+		//artikelTable wird mit Daten befüllt
+ 		artid.setCellValueFactory(cellData -> cellData.getValue().artidproperty().asObject());
 		artab.setCellValueFactory(new PropertyValueFactory <Posten, Date>("artab"));
 		artname.setCellValueFactory(cellData -> cellData.getValue().artnameproperty());
 		artpreis.setCellValueFactory(cellData -> cellData.getValue().artpreisproperty().asObject());
 		
-		
+		// kundenTable mit Werten befüllen
 		kundeID.setCellValueFactory(cellData -> cellData.getValue().kundeidproperty().asObject());
 		
 		kundeVorname.setCellValueFactory(cellData -> cellData.getValue().vornameproperty());
@@ -398,7 +537,7 @@ public class PrimaryController {
 		kundetel.setCellFactory(TextFieldTableCell.forTableColumn());
 		kundetel.setOnEditCommit(cellData-> {cellData.getTableView().getItems().get(cellData.getTablePosition().getRow()).settel(cellData.getNewValue()); int rowNum = kundenTable.getSelectionModel().getSelectedIndex(); String t = kundeVorname.getCellData(rowNum);System.out.println(t);try {UpdateKunde();} catch (SQLException e) {e.printStackTrace();} });
 		
-		//adresse
+		//adressenTable wird mit Daten befüllt
 		adrNr.setCellValueFactory(cellData -> cellData.getValue().adridproperty().asObject());
 		adrNr.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 		adrOrt.setCellValueFactory(test -> test.getValue().adrortproperty());
@@ -414,7 +553,7 @@ public class PrimaryController {
 		adrHnr.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 		adrHnr.setOnEditCommit(cellData -> {cellData.getTableView().getItems().get(cellData.getTablePosition().getRow()).setadrhanr(cellData.getNewValue()); try {UpdateAdresse();} catch (SQLException e) {e.printStackTrace();} });
 		
-		//kfz
+		//kfzTable wird mit Daten befüllt
 		kfzNr.setCellValueFactory(cellData -> cellData.getValue().kfzidproperty().asObject());
 		kfzNr.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 		kfzMarke.setCellValueFactory(test -> test.getValue().kfzmarkeproperty());
@@ -436,7 +575,7 @@ public class PrimaryController {
 		kfzErstZul.setCellFactory(TextFieldTableCell.forTableColumn());
 		kfzErstZul.setOnEditCommit(cellData -> {cellData.getTableView().getItems().get(cellData.getTablePosition().getRow()).setkfzerstzul(cellData.getNewValue()); try {UpdateKFZ();} catch (SQLException e) {e.printStackTrace();} });
 		
-		//stammdaten
+		//stammdatenTable wird mit Daten befüllt
 		stammId.setCellValueFactory(cellData -> cellData.getValue().setammidproperty().asObject());
 		stammId.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 		stammBlz.setCellValueFactory(test -> test.getValue().setammblzproperty().asObject());
@@ -597,7 +736,7 @@ public class PrimaryController {
 		
 	}
 	
-	
+	//KundeListe wird als Daten von Zellen bereitgestellt
 	private void  populateKunde (Kunde kd) throws ClassNotFoundException {
 		ObservableList<Kunde> kdData = FXCollections.observableArrayList();
 		kdData.add(kd);
@@ -605,7 +744,7 @@ public class PrimaryController {
 	
 	}
 	
-	
+	//idk
 	private void populateKunden (ObservableList<Kunde> kdData) throws ClassNotFoundException {
 		kundenTable.setItems(kdData);
 		
