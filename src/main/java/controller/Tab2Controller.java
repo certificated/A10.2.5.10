@@ -66,6 +66,7 @@ public class Tab2Controller {
 	 @FXML
 	  public void Rechnung() throws IOException {
 	    	MainExtender.setRoot("Artikel");
+	    	//PostenController.rechnummer();
 	    }
 	 
 	

@@ -21,7 +21,7 @@
          </columns>
       </TableView>
       <ChoiceBox fx:id="artikelBox" layoutX="19.0" layoutY="243.0" prefWidth="150.0" />
-      <Button fx:id="submitArtikel" layoutX="32.0" layoutY="325.0" mnemonicParsing="false" onAction="#submitArtikel" text="artikel anzeigen" />
+      <Button fx:id="submitArtikel" layoutX="32.0" layoutY="325.0" mnemonicParsing="false" onAction="#submitArtikel" text="artikel hinzufügen" />
       <Button layoutX="31.0" layoutY="364.0" mnemonicParsing="false" text="sortieren" />
       <TextField fx:id="datum" layoutX="19.0" layoutY="163.0" prefHeight="26.0" prefWidth="150.0" promptText="Datum eingeben" />
       <Label layoutX="224.0" layoutY="41.0" prefHeight="26.0" prefWidth="150.0" text="Adresse">
@@ -53,5 +53,6 @@
       <TextField layoutX="181.0" layoutY="242.0" prefHeight="26.0" prefWidth="38.0" text="1" />
       <Label layoutX="182.0" layoutY="217.0" text="Anzahl" />
       <Button fx:id="back" layoutX="19.0" layoutY="34.0" mnemonicParsing="false" onAction="#backTo2" prefHeight="26.0" prefWidth="83.0" text="&lt;- Zurück" />
+      <Label fx:id="renummer" layoutX="671.0" layoutY="32.0" text="Rechnungsnummer:" />
    </children>
 </AnchorPane>

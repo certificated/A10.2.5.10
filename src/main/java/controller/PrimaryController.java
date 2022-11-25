@@ -1,5 +1,6 @@
 package controller;
 
+
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,7 +9,9 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import Class.Adresse;
 import Class.KFZ;
@@ -19,6 +22,7 @@ import DAO.AdresseDAO;
 import DAO.KFZDAO;
 import DAO.KundeDAO;
 import DAO.PostenDAO;
+import DAO.RechnungDAO;
 import DAO.StammdatenDAO;
 import application.blueprint.DBUtil;
 import application.blueprint.MainExtender;
@@ -37,6 +41,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -52,6 +57,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
@@ -249,7 +255,7 @@ public class PrimaryController {
 		  
 	  }
 	  @FXML
-	  public void tab2() throws IOException {
+	  public  void tab2() throws IOException {
 		  //SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
 		  MainExtender.setRoot("primary2");
 		 try {
@@ -266,6 +272,7 @@ public class PrimaryController {
 	  @FXML
 	  public void Rechnung() throws IOException {
 	    	MainExtender.setRoot("Artikel");
+	    	//PostenController.rechnummer();
 	    }
 	  
 	  /*@FXML
@@ -413,8 +420,25 @@ public class PrimaryController {
 	  @FXML
 	  private DatePicker datePicker;
 	  
+	  
 	  @FXML
 	  private TextArea DataField;
+	  
+	  @FXML
+	  private TextArea DataFieldAdr;
+	  
+	  @FXML
+	  private TextArea DataFieldKfz;
+	    
+	  
+	  //mehrere Textfelder für die Abfrage ist bisher die einzige möglichkeit
+	  //mehrere Textareas zu einem sql Befehl zusammenfügen
+	  
+	  @FXML
+	  public void setRechnung() {
+		  DataField.textFormatterProperty();
+		  
+	  }
 	  
 	  @FXML
 	  public void getKunde(ActionEvent event) {
@@ -432,9 +456,13 @@ public class PrimaryController {
 			  
 			  
 			  
-			  String kd = "Nummer: " +nr+ ", Vorname: " +vname+ ", Nachname: " +nname+ ", email: " +email+ ", tel: " +tel;
+			  String kd = nr+ ", Vorname: " +vname+ ", Nachname: " +nname+ ", email: " +email+ ", tel: " +tel;
+			  
+			  //String stmt = "INSERT ?, ?, ?, ?, ? INTO";
 			  
 			  DataField.setText(kd);
+			  //DataField.textFormatterProperty();
+			  
 					  
 		  }
 	  }
@@ -452,8 +480,12 @@ public class PrimaryController {
 			  int ha = adresse.getadrhanr();
 			  String strasse = adresse.getadrstrasse();
 			  int plz = adresse.getadrplz();
-			   String adr = "Nummer: " +nr+ ", Ort: " +ort+ ", Haus NR: " +ha+ ", Straße: " +strasse+ ", PLZ: " +plz;
-			  DataField.setText(adr);
+			   
+			  
+			  
+			  String adr = nr+ ", Ort: " +ort+ ", Haus NR: " +ha+ ", Straße: " +strasse+ ", PLZ: " +plz;
+			  
+			  DataFieldAdr.setText(adr);
 			  
 		  }
 	  }
@@ -465,23 +497,129 @@ public class PrimaryController {
 		  if (kfz.equals(null)) {
 			  DataField.setText("kein Fahrzeug ausgewählz");
 		  } else {
+			  // setze dein KFZ
 			  int nr = kfz.getkfzid();
-			  String t = kfz.getkfzmarke();
-			  String l = kfz.getkfzmodell();
-			  String o = kfz.getkfzhu();
-			  String i = kfz.getkfzhu();
-			  String p = kfz.getkfzerstzul();
+			  String marke = kfz.getkfzmarke();
+			  String modell = kfz.getkfzmodell();
+			  String hu = kfz.getkfzhu();
+			  
+			  String zul = kfz.getkfzerstzul();
 			  int km = kfz.getkfzkmstand();
-			 // String kfz = "Nummer" +nr+ ", Ort: " +ort+ ", Haus NR: " +ha+ ", Straße: " +strasse+ ", PLZ: " +plz;
+			 
+			  
+			  String auto = nr+ ", Marke: " +marke+ ", Modell: " +modell+ ", Hubraum: " +hu+ ", Erstzulassung: " +zul+ "km Stand: " +km;
+			  
+			  DataFieldKfz.setText(auto);
+			  
+			  
+			  
 		  }
 	  }
 	  
+	  
+	  
 	  @FXML
-	  public void getDate(ActionEvent event) {
+	  private Label Rechnungsnummer = new Label();
+	  
+	  
+	  
+	  @FXML
+	  public void getRechnung() {
+		  
+	  }
+	  
+	  
+	  @FXML
+	  public void getDate(ActionEvent event) throws SQLException {
 	  LocalDate myDate = datePicker.getValue();
-	  DataField.setText(myDate.toString());
+	  //DataField.setText(myDate.toString());
+	  
+	  
+	  
+	  String kd = DataField.getText();
+	  //List<String> KundenNr = Arrays.asList(kd.split(","));
+	  String kdnr[] = kd.split(",");
+	  //System.out.println(kdnr[0]);
+	  String adr = DataFieldAdr.getText();
+	  String adrnr[] = adr.split(",");
+	  String kfz = DataFieldKfz.getText();
+	  String kfznr[] = kfz.split(","); 
+	  
+	  
+	  String tst = "SET FOREIGN_KEY_CHECKS=0;";
+	  String prpstmt = "INSERT INTO rechnung (KDNr, AdrNr, FI_ID, Stamm_ID, Datum) VALUES (?, ?, ?, ?, ?);";
+	  String uu = "SET FOREIGN_KEY_CHECKS=1;";
+	  
+	  
+	  	String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
+		String user = "root";
+		String pass = "";
+	  //
+	  try {
+		  
+		  	//Setup für die PreparedStatements in der Funktion für die Erstellung der Rechnungs ID
+			Connection conn = DriverManager.getConnection(url, user, pass);
+			PreparedStatement aa = conn.prepareStatement(tst);
+			PreparedStatement prp = conn.prepareStatement(prpstmt);
+			PreparedStatement kk = conn.prepareStatement(uu);
+			
+			//die Variablen die für das prepared statement eingesetzt werden
+			prp.setString(1, kdnr[0]);
+			prp.setString(2, adrnr[0]);
+			prp.setString(3, kfznr[0]);
+			prp.setString(4, "4");
+			prp.setObject(5, myDate);
+			
+			int test = aa.executeUpdate(); 
+			int rows = prp.executeUpdate();
+			int ll = kk.executeUpdate();
+			
+			System.out.println("teste " +test);
+			System.out.println("betroffene Zeilen: "+rows);
+			System.out.println("ok " +ll);
+			
+			
+			String renummer = "SELECT ReNr FROM rechnung WHERE KDNr = ?  AND AdrNr = ? AND FI_ID = ?;";
+			PreparedStatement hh = conn.prepareStatement(renummer);
+			
+			//setzen der neuen Werte in der zweiten Prepared Statement abfrage
+			hh.setString(1, kdnr[0]);
+			hh.setString(2, adrnr[0]);
+			hh.setString(3, kfznr[0]);
+			ResultSet resultat = hh.executeQuery();
+			
+			
+			if(resultat.next()) {
+				System.out.println(resultat.getString("ReNr"));
+				Rechnungsnummer.setText("Rechnungsnummer: " +resultat.getString("ReNr"));
+				renumme = resultat.getString("ReNr");
+				System.out.println(renumme);
+				//Rechnung.setrechnungid(renumme);
+			}
+			//DBUtil.dbExcequteUpdate(updateStmt);
+		} catch (SQLException e) {
+			System.out.print( e);
+			throw e;
+		}
 	  
 	  }
+	  
+	  public static String renumme = "test";
+	  
+	  @FXML
+		private void rechnungSelect() throws IOException {
+			
+		  
+		  
+			 Stage test = new Stage();
+			 
+			 
+			 //Scene scene1 = new Scene();
+			 test.initModality(Modality.APPLICATION_MODAL);
+			 //scene1.setRoot(MainExtender.loadFXML("Artikel.fxml"));
+			 //test.setScene();
+			 test.showAndWait();
+		}
 	  
 	 
 	
@@ -589,7 +727,7 @@ public class PrimaryController {
 		stammZb.setOnEditCommit(cellData -> {cellData.getTableView().getItems().get(cellData.getTablePosition().getRow()).setstammzb(cellData.getNewValue()); try {UpdateStamm();} catch (SQLException e) {e.printStackTrace();} });
 		
 		
-		//Kunde populateKunden
+		//Kunde populateKunden wenn das problem größen
 		con();
 		changeGreen();
 		ObservableList<Kunde> kdData = KundeDAO.searchKunden();

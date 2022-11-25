@@ -1,25 +1,35 @@
 package controller;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.ResourceBundle;
 
 import controller.PrimaryController;
 import Class.Posten;
+import Class.Rechnung;
 import DAO.PostenDAO;
 import application.blueprint.DBUtil;
 import application.blueprint.MainExtender;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import controller.PrimaryController;
 
-public class PostenController {
+public class PostenController{
 
 	@FXML
 	private ChoiceBox<String> artikelBox;
@@ -30,11 +40,15 @@ public class PostenController {
 	artikelBox.getItems().add("Rückspiegel");
 	*/
 	
+	
+	
+	
 	@FXML
 	private void initialize() throws Exception {
 	artikelBox.getItems().add("Reifen");
 	artikelBox.getItems().add("Winterreifen");
 	artikelBox.getItems().add("Rückspiegel");
+	renummer.setText("Rechnungsnummer: " +PrimaryController.renumme);
 	}
 	
 	@FXML
@@ -59,7 +73,7 @@ public class PostenController {
 		date = datum.getText();
 		System.out.println(date);
 		
-		
+		//lol das hat den typen absolut zerstört
 		//if (isExpire(date) == true) {
 			
 		//}
@@ -117,7 +131,59 @@ public class PostenController {
 			  
 				//PrimaryController.tabPane.getSelectionModel().select(PrimaryController.tab3);
 			//PrimaryController.tab2();
+			MainExtender.setRoot(null);
 			  
 			  
 		  }
+
+		@FXML
+		public Button rnummer = new Button();
+		
+		@FXML
+		public void rechnummer() throws IOException{
+		//renummer.setText(Integer.toString(selectedRechnung.getrechnungsid()));
+		//renummer.setText("test");
+			
+		};
+		
+		
+		
+		private Rechnung selectedRechnung;
+		
+		@FXML
+		private Label renummer = new Label();
+		
+		/*@Override
+		public void initialize(URL location, ResourceBundle resources) {
+			// TODO Auto-generated method stub
+			
+			/*String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
+			String user = "root";
+			String pass = "";
+			
+			Connection conn = DriverManager.getConnection(url, user, pass);
+			String renummer = "SELECT ReNr FROM rechnung WHERE KDNr = ?  AND AdrNr = ? AND FI_ID = ?;";
+			PreparedStatement hh = conn.prepareStatement(renummer);
+			
+			//setzen der neuen Werte in der zweiten Prepared Statement abfrage
+			hh.setString(1, kdnr[0]);
+			hh.setString(2, adrnr[0]);
+			hh.setString(3, kfznr[0]);
+			ResultSet resultat = hh.executeQuery();
+			
+			
+			if(resultat.next()) {
+				System.out.println(resultat.getString("ReNr"));
+				Rechnungsnummer.setText("Rechnungsnummer: " +resultat.getString("ReNr"));
+			}
+			*/
+			/*Platform.runLater(() -> {
+				renummer.setText("test");
+			});
+			renummer.setText(PrimaryController.renumme);
+			System.out.println(PrimaryController.renumme);
+			
+			
+		} 
+*/
 }

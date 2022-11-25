@@ -19,8 +19,8 @@
             <TableColumn fx:id="kundetel" prefWidth="177.59995117187498" text="Telefon" />
         </columns>
       </TableView>
-      <TextField fx:id="kdVorname" layoutX="375.0" layoutY="75.0" promptText="Vorname" />
-      <TextField fx:id="kdNachname" layoutX="530.0" layoutY="75.0" promptText="Nachname" />
+      <TextField fx:id="kdVorname" layoutX="375.0" layoutY="75.0" promptText="Nachname" />
+      <TextField fx:id="kdNachname" layoutX="530.0" layoutY="75.0" promptText="Vorname" />
       <TextField fx:id="kdEmail" layoutX="684.0" layoutY="75.0" promptText="E-Mail" />
       <TextField fx:id="kdTelefon" layoutX="840.0" layoutY="75.0" promptText="Telefon" />
       <Button fx:id="kdInsert" layoutX="220.0" layoutY="75.0" mnemonicParsing="false" onAction="#kundeEintragen" text="Einfügen" />
