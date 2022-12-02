@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -16,30 +19,26 @@
             <TableColumn fx:id="artid" prefWidth="119.20002746582031" text="Artikel Nummer" />
             <TableColumn fx:id="artname" prefWidth="234.4000244140625" text="Artikelname" />
             <TableColumn fx:id="artbeschreibung" prefWidth="128.800048828125" text="gültig an" />
-            <TableColumn fx:id="artab" minWidth="0.0" prefWidth="96.0" text="preis" />
+            <TableColumn fx:id="artab" minWidth="0.0" prefWidth="96.0" text="Einkaufspreis" />
             <TableColumn prefWidth="95.199951171875" text="Anzahl" />
          </columns>
       </TableView>
-      <ChoiceBox fx:id="artikelBox" layoutX="19.0" layoutY="243.0" prefWidth="150.0" />
-      <Button fx:id="submitArtikel" layoutX="32.0" layoutY="325.0" mnemonicParsing="false" onAction="#submitArtikel" text="artikel hinzufügen" />
-      <Button layoutX="31.0" layoutY="364.0" mnemonicParsing="false" text="sortieren" />
-      <TextField fx:id="datum" layoutX="19.0" layoutY="163.0" prefHeight="26.0" prefWidth="150.0" promptText="Datum eingeben" />
-      <Label layoutX="224.0" layoutY="41.0" prefHeight="26.0" prefWidth="150.0" text="Adresse">
+      <Label fx:id="adresse" layoutX="224.0" layoutY="41.0" prefHeight="26.0" prefWidth="150.0" text="Adresse">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="224.0" layoutY="67.0" prefHeight="26.0" prefWidth="110.0" text="Datum">
+      <Label fx:id="datum" layoutX="224.0" layoutY="67.0" prefHeight="26.0" prefWidth="110.0" text="Datum">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="784.0" layoutY="59.0" prefHeight="26.0" prefWidth="123.0" text="Kunde">
+      <Label fx:id="kunde" layoutX="784.0" layoutY="59.0" prefHeight="26.0" prefWidth="123.0" text="Kunde">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="784.0" layoutY="90.0" prefHeight="26.0" prefWidth="123.0" text="KFZ">
+      <Label fx:id="kfz" layoutX="784.0" layoutY="90.0" prefHeight="26.0" prefWidth="123.0" text="KFZ">
          <font>
             <Font size="14.0" />
          </font>
@@ -49,10 +48,43 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="19.0" layoutY="217.0" text="Artikel hinzufügen" />
-      <TextField layoutX="181.0" layoutY="242.0" prefHeight="26.0" prefWidth="38.0" text="1" />
-      <Label layoutX="182.0" layoutY="217.0" text="Anzahl" />
       <Button fx:id="back" layoutX="19.0" layoutY="34.0" mnemonicParsing="false" onAction="#backTo2" prefHeight="26.0" prefWidth="83.0" text="&lt;- Zurück" />
       <Label fx:id="renummer" layoutX="671.0" layoutY="32.0" text="Rechnungsnummer:" />
+      <Accordion layoutX="14.0" layoutY="147.0">
+        <panes>
+          <TitledPane animated="false" text="untitled 1">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <DatePicker fx:id="datePicker" layoutX="12.0" layoutY="111.0" promptText="Datum eingeben" />
+                        <TextField fx:id="einkaufspreis" layoutX="14.0" layoutY="77.0" promptText="Einkaufspreis" />
+                        <TextField fx:id="artikelname" layoutX="14.0" layoutY="39.0" promptText="Artikelname" />
+                        <Label layoutX="14.0" layoutY="14.0" text="Artikel hinzufügen" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" prefHeight="224.0" prefWidth="202.0" text="untitled 2">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ChoiceBox fx:id="artikelBox" layoutX="2.0" layoutY="33.0" prefWidth="150.0" />
+                        <Label layoutX="14.0" layoutY="14.0" text="Artikel Auswählen" />
+                        <TextField layoutX="159.0" layoutY="32.0" prefHeight="26.0" prefWidth="38.0" text="1" />
+                        <Label layoutX="160.0" layoutY="14.0" text="Anzahl" />
+                        <Button layoutX="14.0" layoutY="67.0" mnemonicParsing="false" text="sortieren" />
+                        <Button layoutX="15.0" layoutY="103.0" mnemonicParsing="false" text="entfernen" />
+                        <Button fx:id="submitArtikel" layoutX="15.0" layoutY="141.0" mnemonicParsing="false" onAction="#submitArtikel" text="Artikel so übernehmen" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" text="untitled 3">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
    </children>
 </AnchorPane>

@@ -255,7 +255,7 @@ public class PrimaryController {
 		  
 	  }
 	  @FXML
-	  public  void tab2() throws IOException {
+	  public void tab2() throws IOException {
 		  //SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
 		  MainExtender.setRoot("primary2");
 		 try {
@@ -354,45 +354,7 @@ public class PrimaryController {
 	@FXML
 	public TextField datum = new TextField();
 	
-	// datumsabfrage
-	@FXML
-	public boolean isExpire(String date){
-	    if(date.isEmpty() || date.trim().equals("")){
-	        return false;
-	    }else{
-	            SimpleDateFormat sdf =  new SimpleDateFormat("MMM-dd-yyyy hh:mm:ss a"); // today
-	               Date d=null;
-	               Date d1=null;
-	            String today = getToday("MMM-dd-yyyy hh:mm:ss a");
-	            try {
-	                // System.out.println("expdate>> "+date);
-	                // System.out.println("today>> "+today+"\n\n");
-	                d = sdf.parse(date);
-	                d1 = sdf.parse(today);
-	                System.out.println("alles erfolgreich gelaufen");
-	                if(d1.compareTo(d) <0){ // not expired
-	                    return false;
-	                }else if(d.compareTo(d1)==0){ // both date are same
-	                            if(d.getTime() < d1.getTime()){ // not expired
-	                                return false;
-	                            }else if(d.getTime() == d1.getTime()){ //expired
-	                                return true;
-	                            }else{ //expired
-	                                return true;
-	                                
-	                            }
-	                }else{//expired
-	                	System.out.println("alles erfolgreich gelaufen");
-	                	return true;
-	                    
-	                }
-	                
-	            } catch (ParseException e) {
-	                e.printStackTrace();                    
-	                return false;
-	            }
-	    }
-	}
+	
 
 
 	  public static String getToday(String format){
@@ -570,41 +532,62 @@ public class PrimaryController {
 			prp.setString(4, "4");
 			prp.setObject(5, myDate);
 			
+			//globale variable wird auf den wert der adresse gesetzt
+			knr = kdnr[0];
+			anr = adrnr[0];//TODO weitere globale variablen 
+			arid = kdnr[0];
+			
+			
 			int test = aa.executeUpdate(); 
 			int rows = prp.executeUpdate();
 			int ll = kk.executeUpdate();
 			
-			System.out.println("teste " +test);
-			System.out.println("betroffene Zeilen: "+rows);
-			System.out.println("ok " +ll);
+			System.out.println("teste " + test);
+			System.out.println("betroffene Zeilen: "+ rows);
+			System.out.println("ok " + ll);
 			
 			
 			String renummer = "SELECT ReNr FROM rechnung WHERE KDNr = ?  AND AdrNr = ? AND FI_ID = ?;";
-			PreparedStatement hh = conn.prepareStatement(renummer);
+			PreparedStatement prepStmtRn = conn.prepareStatement(renummer);
 			
 			//setzen der neuen Werte in der zweiten Prepared Statement abfrage
-			hh.setString(1, kdnr[0]);
-			hh.setString(2, adrnr[0]);
-			hh.setString(3, kfznr[0]);
-			ResultSet resultat = hh.executeQuery();
+			prepStmtRn.setString(1, kdnr[0]);
+			prepStmtRn.setString(2, adrnr[0]);
+			prepStmtRn.setString(3, kfznr[0]);
+			ResultSet resultat = prepStmtRn.executeQuery();
 			
 			
 			if(resultat.next()) {
 				System.out.println(resultat.getString("ReNr"));
-				Rechnungsnummer.setText("Rechnungsnummer: " +resultat.getString("ReNr"));
-				renumme = resultat.getString("ReNr");
-				System.out.println(renumme);
+				Rechnungsnummer.setText("Rechnungsnummer: " + resultat.getString("ReNr"));
+				Rin = resultat.getString("ReNr");
+				System.out.println(Rin);
 				//Rechnung.setrechnungid(renumme);
+				
+				String artid = "SELECT artID FROM artikel WHERE artikelname = ?;";
+				
+				
+				PreparedStatement jj  = conn.prepareStatement(artid);
+				/*
+				PreparedStatement jj = conn.prepareStatement(artid);
+				jj.setString(1, "test");
+				*/
 			}
 			//DBUtil.dbExcequteUpdate(updateStmt);
 		} catch (SQLException e) {
-			System.out.print( e);
+			System.out.print(e);
 			throw e;
 		}
 	  
 	  }
+	  //
+	  public static String Rin = "test";
 	  
-	  public static String renumme = "test";
+	  public static String knr = "test";
+	  
+	  public static String anr = "test";
+	  
+	  public static String arid = "test";
 	  
 	  @FXML
 		private void rechnungSelect() throws IOException {
@@ -644,9 +627,9 @@ public class PrimaryController {
 		kdlist = kundenTable.getSelectionModel().getSelectedItems();
 		//TODO selbes wie in Zeile 435 	
 		System.out.println(kdlist.size());
+		//TODO wenn die Liste geladen wurde dann 
 		
-		
-			// die Auswahl an Posten
+		// die Auswahl an Posten
 		artikelBox.getItems().add("Reifen");
 		artikelBox.getItems().add("Winterreifen");
 		artikelBox.getItems().add("Rückspiegel");
@@ -661,7 +644,6 @@ public class PrimaryController {
 		
 		// kundenTable mit Werten befüllen
 		kundeID.setCellValueFactory(cellData -> cellData.getValue().kundeidproperty().asObject());
-		
 		kundeVorname.setCellValueFactory(cellData -> cellData.getValue().vornameproperty());
 		kundeVorname.setCellFactory(TextFieldTableCell.forTableColumn());
 		kundeVorname.setOnEditCommit(cellData-> {cellData.getTableView().getItems().get(cellData.getTablePosition().getRow()).setvorname(cellData.getNewValue());/*int rowNum = kundenTable.getSelectionModel().getSelectedIndex(); String t = kundeVorname.getCellData(rowNum);System.out.println(t);*/try {UpdateKunde();} catch (SQLException e) {e.printStackTrace();} }); //Datensatz überschreiben
@@ -727,7 +709,7 @@ public class PrimaryController {
 		stammZb.setOnEditCommit(cellData -> {cellData.getTableView().getItems().get(cellData.getTablePosition().getRow()).setstammzb(cellData.getNewValue()); try {UpdateStamm();} catch (SQLException e) {e.printStackTrace();} });
 		
 		
-		//Kunde populateKunden wenn das problem größen
+		//Kunde populate
 		con();
 		changeGreen();
 		ObservableList<Kunde> kdData = KundeDAO.searchKunden();
@@ -738,7 +720,7 @@ public class PrimaryController {
 	//Kunde Suchfilter
 	FilteredList<Kunde> filteredData = new FilteredList<>(kdData, b->true);
 	
-	Filter.textProperty().addListener((observable, oldValue, newValue) ->{
+	Filter.textProperty().addListener((observable, oldValue, newValue) ->{ 
 		filteredData.setPredicate(Kunde ->{
 		if (newValue == null|| newValue.isEmpty()) {
 			return true;
@@ -755,7 +737,7 @@ public class PrimaryController {
 			return true;
 		}
 		else if (String.valueOf(Kunde.getKundeid()).indexOf(lowerCaseFilter) != -1) {
-			return true;
+			return true; // TODO
 		}
 		
 		
@@ -768,7 +750,8 @@ public class PrimaryController {
 		});
 	
 	SortedList<Kunde> sortedData = new SortedList<>(filteredData);
-	
+	//kunde filter am ende der der mitte damit wir besser den code unterscheiden können der somit die endstation jedes mal wenn der
+	//spacken
 	sortedData.comparatorProperty().bind(kundenTable.comparatorProperty());
 	kundenTable.setItems(sortedData);
 		

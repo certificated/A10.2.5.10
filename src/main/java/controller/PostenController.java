@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -23,9 +24,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import controller.PrimaryController;
 
@@ -48,8 +51,126 @@ public class PostenController{
 	artikelBox.getItems().add("Reifen");
 	artikelBox.getItems().add("Winterreifen");
 	artikelBox.getItems().add("Rückspiegel");
-	renummer.setText("Rechnungsnummer: " +PrimaryController.renumme);
+	renummer.setText("Rechnungsnummer: " + PrimaryController.Rin);
+	
+	System.out.println(PrimaryController.knr);
+	
+	getKunde();
+	
+	
 	}
+	
+	
+	@FXML
+	private void getKunde() throws SQLException {
+		
+		 
+		  
+		  
+		  	String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
+			String user = "root";
+			String pass = "";
+		
+		
+		
+			Connection conn = DriverManager.getConnection(url, user, pass);
+			
+		
+		
+			
+		String kdnr1 = "SELECT VName FROM kunde WHERE KDNr = ?;";
+		
+		String kdnr2 = "SELECT NName FROM kunde WHERE KDNr = ?;";
+		
+		PreparedStatement hh = conn.prepareStatement(kdnr1);
+		
+		PreparedStatement kk = conn.prepareStatement(kdnr2);
+		
+		
+		
+		hh.setString(1, PrimaryController.knr);
+		
+		kk.setString(1, PrimaryController.knr);
+		
+		ResultSet resultSet = hh.executeQuery();
+		
+		if(resultSet.next()) {
+			System.out.println(resultSet.getString("VName"));
+			kunde.setText( resultSet.getString("VName"));
+			//Rin = resultat.getString("ReNr");
+			//System.out.println(Rin);
+			//Rechnung.setrechnungid(renumme);
+		}
+		
+		ResultSet resultat = kk.executeQuery();
+		
+		
+		
+	}
+	
+	
+	@FXML
+	private void getAdresse() throws SQLException {
+		
+		 
+		  
+		  
+		  	String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
+			String user = "root";
+			String pass = "";
+		
+		
+		
+			Connection conn = DriverManager.getConnection(url, user, pass);
+			
+		
+		
+			
+		String adnr1 = "SELECT VName FROM kunde WHERE KDNr = ?;";
+		
+		//String kdnr2 = "SELECT NName FROM kunde WHERE KDNr = ?;";
+		
+		PreparedStatement hh = conn.prepareStatement(adnr1);
+		
+		//PreparedStatement kk = conn.prepareStatement(kdnr2);
+		
+		
+		
+		hh.setString(1, PrimaryController.knr);
+		
+		//kk.setString(1, PrimaryController.knr);
+		
+		ResultSet resultSet = hh.executeQuery();
+		
+		if(resultSet.next()) {
+			System.out.println(resultSet.getString("VName"));
+			kunde.setText( resultSet.getString("VName"));
+			//Rin = resultat.getString("ReNr");
+			//System.out.println(Rin);
+			//Rechnung.setrechnungid(renumme);
+		}
+		
+		//ResultSet resultat = kk.executeQuery();
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	@FXML
+	private Label datum;
+	
+	@FXML
+	private Label kfz;
+	
+	@FXML
+	private Label adresse;
+	
+	@FXML
+	private Label kunde;
 	
 	@FXML
 	private TableColumn<Posten , Integer> artid = new TableColumn<>();
@@ -66,23 +187,22 @@ public class PostenController{
 	@FXML
 	private TableColumn<Posten, Integer> artpreis = new TableColumn<>();
 	
-	@FXML
-	public void newDate(String date) throws ClassNotFoundException, SQLException {
-		String stmt = "SELECT * FROM posten ORDER BY datum DESC;";
-		
-		date = datum.getText();
-		System.out.println(date);
-		
-		//lol das hat den typen absolut zerstört
-		//if (isExpire(date) == true) {
-			
-		//}
-		
-		DBUtil.dbExcecuteQuery(stmt);
-	}
+	
+	
 	
 	@FXML
-	public TextField datum = new TextField();
+	  private DatePicker datePicker;
+	  
+	  
+	  @FXML
+	  private TextField artikelname;
+	  
+	  @FXML
+	  private TextField einkaufspreis;
+	  
+	  @FXML
+	  private Button submitArtikel;
+	  
 	
 	@FXML
 	private TableView<Posten> artikelTable = new TableView();
@@ -95,14 +215,71 @@ public class PostenController{
 			//DBUtil.dbConnect();
 			//changeGreen();
 			
+			String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
+			String user = "root";
+			String pass = "";
+			
+			Connection conn = DriverManager.getConnection(url, user, pass);
+			
+			
+			String art = artikelBox.getValue();
+			
+			String artid = "SELECT artikelNr FROM artikel WHERE artikelname = ?;";
+			
+			
+			PreparedStatement jj  = conn.prepareStatement(artid);
+			
+			jj.setString(1, art);
+			
+			//int ll = jj.executeUpdate();
+			
+			ResultSet resultat = jj.executeQuery();
+			
+			//System.out.println(resultat.getInt());
+			
+			
+			int artinr = 0;
+			while (resultat.next()) {
+				System.out.println(resultat.getInt("artikelNr"));
+				artinr = resultat.getInt("artikelNr");
+			}
+			
+			
+			/*
+			String pattern = "yyyy-MM-dd";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			String date = new simpleDateFormat.format(new Date());
+			*/
+			
+			//Column count doesn't match value count at row 1
+			String oo = "INSERT INTO posten VALUES (null, ?, ?, ?, ?, ?, ?);";
+			
+			PreparedStatement ff = conn.prepareStatement(oo);
+			
+			ff.setInt(1, 1);
+			ff.setInt(2, artinr);
+			ff.setString(3, "2022-12-02");
+			ff.setFloat(4, 30);
+			ff.setInt(5, 1);
+			ff.setInt(6, 2);
+			
+			ff.executeUpdate();
+			
+			
 			
 			
 			String test = artikelBox.getValue();
 			System.out.println(test);
 			
+			
+			
 			if (test.equals("Reifen")) {
-				ObservableList<Posten> psData = PostenDAO.searchPosten();
-				populatePosten(psData);
+				
+				
+				
+				//ObservableList<Posten> psData = PostenDAO.searchPosten();
+				//populatePosten(psData);
+				System.out.println("ok");
 			}
 			else {
 				System.out.println("Sie haben keinen Artikel Ausgewählt!");
@@ -131,7 +308,7 @@ public class PostenController{
 			  
 				//PrimaryController.tabPane.getSelectionModel().select(PrimaryController.tab3);
 			//PrimaryController.tab2();
-			MainExtender.setRoot(null);
+			MainExtender.setRoot("primary2");
 			  
 			  
 		  }

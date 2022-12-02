@@ -100,4 +100,5 @@ public class Posten {
 	public IntegerProperty artpreisproperty() {
 		return artpreis;
 	}
+	
 }

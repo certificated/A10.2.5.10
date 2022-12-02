@@ -72,10 +72,10 @@ public class PostenDAO {
 			Posten ps = new Posten();
 			//kd.setkundeid(rs.getInt("KDNr"));
 			//kd.setnachname(rs.getString("NName"));
-			//kd.setvorname(rs.getString("Tel"));
+			//kd.setvorname(rs.getString(""));
 			ps.setartid(rs.getInt("art_ID"));
-			//ps.setartname(rs.getString("NName"));
-			//ps.setartbeschreibung(rs.getString("VName"));
+			ps.setartname(rs.getString(""));
+			//ps.setartbeschreibung(rs.getString("VName")); TODO
 			ps.setartab(rs.getDate("datum"));
 			//ps.setartpreis(rs.getInt("Tel"));
 			
