@@ -33,6 +33,11 @@ public class KundeDAO {
 		
 	}
 
+	public static void updateKunde(int kdid, String kdVorname, String kdNachname, String kdEmail, String kdTel) throws ClassNotFoundException, SQLException {
+		
+		
+	}
+	
 	public static Kunde getKundeFromResultSet(ResultSet rs)throws SQLException {
 		
 		Kunde kd = null;
@@ -93,7 +98,7 @@ public class KundeDAO {
 		return kdList;
 	}
 	
-	/*
+	/* LK
 	public static void updateKdEmail (String kdID, String kdEmail) throws SQLException, ClassNotFoundException {
 		
 		String updateStmt = 
@@ -121,7 +126,7 @@ public class KundeDAO {
 	//unfertig später bearbeiten
 	public static void insertKd (String vorName, String nachName, String email, String tel) throws SQLException, ClassNotFoundException{
 		//String updateStmt = "INSERT INTO kunde (KDNr, VName, NName, email, Tel) VALUES (null , '" + vorName + "','" + nachName + "','" + email +"','" + tel +"');";
-		
+		//DAO
 		String prpstmt = "INSERT INTO kunde (KDNr, VName, NName, email, Tel) VALUES (null , ?, ?, ?, ?);";
 		
 		String url = "jdbc:mysql://localhost:3306/kfz_rechnung";

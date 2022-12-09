@@ -75,7 +75,12 @@ public class AdresseSetupController {
 		*/
 		
 		
-		
+		/**
+		 * Wenn keine Werte Fehlen werden die Eingetragenen Werte in die Datenbank übernommen
+		 * @param actionEvent
+		 * @throws SQLException
+		 * @throws ClassNotFoundException
+		 */
 		@FXML
 		private void AdresseEintragen (ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
 			if (ort != null && plz != null && strasse != null && hr != null) {
@@ -92,6 +97,12 @@ public class AdresseSetupController {
 			} else {System.out.println("alle Felder müssen ausgefüllt werden!");}
 		} 
 		
+		/**
+		 * um auf die vorherige View zurückzukommen
+		 * @throws SQLException
+		 * @throws ClassNotFoundException
+		 * @throws IOException
+		 */
 		@FXML
 		private void switchToOverview () throws SQLException, ClassNotFoundException, IOException {
 			MainExtender.setRoot("primary2");

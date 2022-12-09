@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 
 public class SecondaryController {
 
-	
+	/*
 	
 	
 	Button IDeinlesen;
@@ -48,7 +48,7 @@ public class SecondaryController {
     	
     	DBUtil.dbConnect(sql);
     }
-    */
+    
     
     public void saveort(String ort) {
     	System.out.println("test");
@@ -70,6 +70,6 @@ public class SecondaryController {
 			e.printStackTrace();
 			
 		}
-    }
+    }*/
     
 }

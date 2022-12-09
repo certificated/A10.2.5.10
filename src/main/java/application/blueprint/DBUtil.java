@@ -30,7 +30,7 @@ public class DBUtil {
 	public static Connection con = null;
 	PreparedStatement preparedStatement = null;
 	
-	public static void changeScene(ActionEvent event, String fxmlFile, String title, String ort) {
+	/*public static void changeScene(ActionEvent event, String fxmlFile, String title, String ort) {
 		Parent root = null;
 		
 		try {
@@ -49,9 +49,7 @@ public class DBUtil {
 		stage.setScene(new Scene(root));
 		stage.show();
 		
-		
-		
-	}
+	}*/
 	
 	//jdbc muss eingebunden sein
 	public static void dbConnect(/*ActionEvent event*/) {

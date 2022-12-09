@@ -77,9 +77,9 @@ public class PostenController{
 			
 		
 		
-			
+		//DAO	
 		String kdnr1 = "SELECT VName FROM kunde WHERE KDNr = ?;";
-		
+		//DAO
 		String kdnr2 = "SELECT NName FROM kunde WHERE KDNr = ?;";
 		
 		PreparedStatement hh = conn.prepareStatement(kdnr1);
@@ -125,7 +125,7 @@ public class PostenController{
 			
 		
 		
-			
+			//DAO
 		String adnr1 = "SELECT VName FROM kunde WHERE KDNr = ?;";
 		
 		//String kdnr2 = "SELECT NName FROM kunde WHERE KDNr = ?;";
@@ -206,7 +206,12 @@ public class PostenController{
 	
 	@FXML
 	private TableView<Posten> artikelTable = new TableView();
-	
+	/**
+	 * der aus der Choice Box ausgewählte Artilel wird in die Rechnung übernommen
+	 * @param actionEvent
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	@FXML
 	private void submitArtikel(ActionEvent actionEvent) throws ClassNotFoundException, SQLException {
 		//PrimaryController.con();
@@ -223,7 +228,7 @@ public class PostenController{
 			
 			
 			String art = artikelBox.getValue();
-			
+			//DAO
 			String artid = "SELECT artikelNr FROM artikel WHERE artikelname = ?;";
 			
 			
@@ -251,7 +256,8 @@ public class PostenController{
 			String date = new simpleDateFormat.format(new Date());
 			*/
 			
-			//Column count doesn't match value count at row 1
+			//DAO
+			//Posten Tabelle befüllen UND nicht vergessen die Variablen umzubenennen
 			String oo = "INSERT INTO posten VALUES (null, ?, ?, ?, ?, ?, ?);";
 			
 			PreparedStatement ff = conn.prepareStatement(oo);
@@ -290,11 +296,13 @@ public class PostenController{
 		}
 	}
 		
-		private void populatePosten (ObservableList<Posten> psData) throws ClassNotFoundException {
+		/*private void populatePosten (ObservableList<Posten> psData) throws ClassNotFoundException {
 			artikelTable.setItems(psData);
 			
-		}
-		
+		}*/
+		/**
+		 * stellt eine Verbindung mit der Datenbank her
+		 */
 		@FXML  void con() {
 			DBUtil.dbConnect();
 			
@@ -302,7 +310,10 @@ public class PostenController{
 		
 		@FXML
 		private Button back;
-		
+		/**
+		 * wechselt zurück zur vorherigen View
+		 * @throws IOException
+		 */
 		@FXML
 		   public void backTo2() throws IOException {
 			  
@@ -315,13 +326,13 @@ public class PostenController{
 
 		@FXML
 		public Button rnummer = new Button();
-		
+		/* LK
 		@FXML
 		public void rechnummer() throws IOException{
 		//renummer.setText(Integer.toString(selectedRechnung.getrechnungsid()));
 		//renummer.setText("test");
 			
-		};
+		};*/
 		
 		
 		
@@ -330,7 +341,7 @@ public class PostenController{
 		@FXML
 		private Label renummer = new Label();
 		
-		/*@Override
+		/*@Override LK
 		public void initialize(URL location, ResourceBundle resources) {
 			// TODO Auto-generated method stub
 			

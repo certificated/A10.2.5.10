@@ -52,6 +52,10 @@ public class Tab2Controller {
 	@FXML
 	private Button nRechnungInsert;
 	
+	/**
+	 * erstellt ein neues Fenster welches das vorherige Fenster während der Laufzeit deaktiviert
+	 * @throws IOException
+	 */
 	@FXML
 	private void rechnungSelect() throws IOException {
 		//MainExtender.setRoot("Artikel");
@@ -62,7 +66,10 @@ public class Tab2Controller {
 		 //test.setScene();
 		 test.showAndWait();
 	}
-	
+	/**
+	 * wechselt zur Artikel-View
+	 * @throws IOException
+	 */
 	 @FXML
 	  public void Rechnung() throws IOException {
 	    	MainExtender.setRoot("Artikel");
@@ -80,7 +87,11 @@ public class Tab2Controller {
 	  
 	  Tab tab3 = new Tab();
 	  */
-	  @FXML
+	 /**
+	  * wechselt zur vorherigen View 
+	  * @throws IOException
+	  */
+	 @FXML
 	   public void backTo2() throws IOException {
 		  
 			//PrimaryController.tabPane.getSelectionModel().select(PrimaryController.tab3);

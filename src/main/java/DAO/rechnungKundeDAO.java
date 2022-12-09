@@ -8,8 +8,10 @@ import application.blueprint.DBUtil;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+
 public class rechnungKundeDAO {
-    public static void kundeEingabe (String vornametextfield, String nachnametextfield, String telefontextfield) throws SQLException, ClassNotFoundException {
+/*    public static void kundeEingabe (String vornametextfield, String nachnametextfield, String telefontextfield) throws SQLException, ClassNotFoundException {
         String updateStmt = "INSERT INTO kunde (kundennummer, vorname, nachname, telefonnummer) VALUES (null, '"+vornametextfield+"', '"+nachnametextfield+"', '"+telefontextfield+"');";
 
         try {
@@ -33,5 +35,5 @@ public class rechnungKundeDAO {
 
     public static void connectToDatabase() {
 
-    }
+    }*/
 }

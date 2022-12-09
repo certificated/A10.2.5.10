@@ -82,7 +82,12 @@ public class KFZSetupController {
 	*/
 	
 	
-	
+	/**
+	 * Wenn keine nötigen Daten fehlen dann werden die hingeschriebenen Daten in die DAtenbank übernommen werden 
+	 * @param actionEvent
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	@FXML
 	private void KFZEintragen (ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
 		if (kfzid != null && marke != null && modell != null && hu != null && kennz != null && erstzul != null) {
@@ -99,6 +104,12 @@ public class KFZSetupController {
 		}else {System.out.println("alle Felder müssen ausgefüllt werden!");}
 	} 
 	
+	/**
+	 * Um zurück auf die vorherige View zu kommen
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 */
 	@FXML
 	private void switchToOverview () throws SQLException, ClassNotFoundException, IOException {
 		MainExtender.setRoot("primary2");

@@ -54,7 +54,7 @@ public class KFZDAO {
 		
 		public static void insertKFZ (Integer KFZnr, String marke, String modell, String hu, String kennz, Integer kmstand, String erstzul) throws SQLException, ClassNotFoundException{
 			//String updateStmt = "INSERT INTO kfz (FI_ID, Marke, Modell, HU, KennZ, kmStand, ErstZul) VALUES ('" + KFZnr + "','" + marke + "','" + modell +"','" + hu +"','" + kennz +"','" + kmstand +"','"+ erstzul +"');";
-			
+			//DAO
 			String prpstmt = "INSERT INTO kfz (FI_ID, Marke, Modell, HU, KennZ, kmStand, ErstZul) VALUES (?, ?, ?, ?, ?, ?, ?);";
 			
 			String url = "jdbc:mysql://localhost:3306/kfz_rechnung";

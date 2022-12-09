@@ -79,6 +79,9 @@ public class KundeSetupController {
 	
 	//ResultSet rset = databaseMetaData.getImportedKeys("KD_ID");
 	
+	/**
+	 * verbindung mit der Datenbank herstellen
+	 */
 	@FXML
 	private void con() {
 		DBUtil.dbConnect();
@@ -100,6 +103,11 @@ public class KundeSetupController {
 		
 	}
 	
+	/**
+	 * die Tabelle mit den Daten aus der Datenbank befüllen
+	 * @param kd
+	 * @throws ClassNotFoundException
+	 */
 	@FXML
 	private void  populateKunde (Kunde kd) throws ClassNotFoundException {
 		ObservableList<Kunde> kdData = FXCollections.observableArrayList();
@@ -107,6 +115,10 @@ public class KundeSetupController {
 		KundenTable.setItems(kdData);
 	}
 	
+	/**
+	 * um die eingetragenen Kunden in die Tex
+	 * @param kd
+	 */
 	@FXML
 	private void setKdInfoToTextArea (Kunde kd) {
 		resultArea.setText("Vorname: " + kd.getvorname() + "\n" + "Nachname" +kd.getnachname());
@@ -125,13 +137,23 @@ public class KundeSetupController {
 		}
 	}
 	
+	/**
+	 * setzt die Inhalte der Kundendaten in die Tabelle der View
+	 * @param kdData
+	 * @throws ClassNotFoundException
+	 */
 	@FXML
 	private void populateKunden (ObservableList<Kunde> kdData) throws ClassNotFoundException {
 		KundenTable.setItems(kdData);
 	}
 	
-	// übernahme von den eingabewerten für den neuen Datensatz
 	
+	/**
+	 * übernahme von den eingabewerten für den neuen Datensatz
+	 * @param actionEvent
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	@FXML
 	private void kundeEintragen (ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
 		KundeDAO.insertKd(kdNachname.getText(), kdVorname.getText(), kdEmail.getText(), kdTelefon.getText());
@@ -139,14 +161,24 @@ public class KundeSetupController {
 		}
 	
 
+	/**
+	 * wechselt zur vorherigen View
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 */
 	@FXML
 	private void switchToOverview () throws SQLException, ClassNotFoundException, IOException {
 		MainExtender.setRoot("primary2");
 	}
 	
 	
-	// filter für eingabe
 	
+	/**
+	 * filter für eingabe
+	 * @author CajkaChr
+	 *
+	 */
 	private static class ValidatingTextField extends TextField {
 		private final Predicate<String> validation;
 		private BooleanProperty isValidProperty = new SimpleBooleanProperty();

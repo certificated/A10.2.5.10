@@ -53,7 +53,7 @@ public class AdresseDAO {
 		
 		public static void insertAdresse (String ort, Integer plz, String strasse, Integer hr) throws SQLException, ClassNotFoundException{
 			//String updateStmt = "INSERT INTO adresse (AdrNr, Ort, PLZ, Str, HsNr) VALUES (null,'" + ort + "','" + plz +"','" + strasse +"','" + hr  +"');";
-			
+			//DAO
 			final String prpstmt = "INSERT INTO adresse (AdrNr, Ort, PLZ, Str, HsNr) VALUES (null, ?, ?, ?, ?);";
 			
 			

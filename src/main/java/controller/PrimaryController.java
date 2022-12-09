@@ -107,6 +107,13 @@ public class PrimaryController {
 	@FXML
 	Button zeigeAlleKd;
 	
+	/**
+	 * sucht Kunden und trägt diese auf Knopfdruck in die Tabelle ein
+	 * @param actionEvent
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	
 	@FXML
 	private void searchKunden (ActionEvent actionEvent) throws ClassNotFoundException, SQLException {
 		con();
@@ -128,11 +135,12 @@ public class PrimaryController {
 	@FXML
 	DatePicker d = new DatePicker();
 	
+	/**
+	 * Update Funktion um per doppelklick in einer Zelle den Wert zu überarbeiten und den neuen Wert in die Datenbank hochzuladen
+	 */
 	@FXML
-	   private void UpdateKunden() {
-		   
-		
-		
+	private void UpdateKunden() {
+		   	
 		kundeVorname.setCellFactory(TextFieldTableCell.forTableColumn());	
 		kundeVorname.setOnEditCommit(
 			    new EventHandler<CellEditEvent<Kunde, String>>() {
@@ -165,7 +173,12 @@ public class PrimaryController {
 	   }
 	
 	
-	
+	/**
+	 * schreibt die Werte aus der Kundentabelle in die View-Tabelle
+	 * @param actionEvent
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	@FXML
 	private void searchKunde (ActionEvent actionEvent) throws ClassNotFoundException, SQLException {
 		try {
@@ -179,7 +192,10 @@ public class PrimaryController {
 		}
 	}
 	
-	
+	/**
+	 * Update Funktion um per doppelklick in einer Zelle den Wert zu überarbeiten und den neuen Wert in die Datenbank hochzuladen
+	 * @throws SQLException
+	 */
 	@FXML
 	private void UpdateKunde() throws SQLException {
 		
@@ -204,14 +220,8 @@ public class PrimaryController {
 		int id = kundeID.getCellData(kdnr);
 		
 		
-		/*
-		 * String stmt = "UPDATE kunde SET VName = '" +vorname+ 
-				"' , NName = '" +nachname+ 
-				"' , email = '" +email+ 
-				"' , Tel = '"+tel+ 
-				"' WHERE KDNr = " + id;
-		*/
 		
+		//DAO
 		final String prpstmt = "UPDATE kunde SET VName = ? , NName = ?  , email = ?  , Tel = ? WHERE KDNr = ?";
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
@@ -243,8 +253,11 @@ public class PrimaryController {
 	  @FXML
 	  Tab tab4 = new Tab();
 	  
+	  /**
+	   * speichert einen Integer Wert welche die Nummer des aktuellen Tabs beinhaltet
+	   */
 	  @FXML
-	   public void getTab() {
+	  public void getTab() {
 		  //tabPane.getSelectionModel().select(tab3);
 		  int Tab = tabPane.getSelectionModel().getSelectedIndex() + 1;
 		  //System.out.println(tabPane.getSelectionModel().getSelectedIndex());
@@ -254,6 +267,11 @@ public class PrimaryController {
 		  
 		  
 	  }
+	  
+	  /**
+	   * macht den Tab2 Controller für den zweiten Tab in der View verfügbar
+	   * @throws IOException
+	   */
 	  @FXML
 	  public void tab2() throws IOException {
 		  //SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
@@ -266,9 +284,11 @@ public class PrimaryController {
 		  
 	  }
 	  
-	  //@FXML
-	  //public Button Rechnung = new Button();
 	  
+	  /**
+	   * wechselt die View auf die Artikelview
+	   * @throws IOException
+	   */
 	  @FXML
 	  public void Rechnung() throws IOException {
 	    	MainExtender.setRoot("Artikel");
@@ -290,6 +310,13 @@ public class PrimaryController {
 	@FXML
 	private TableView<Posten> artikelTable = new TableView();
 	
+	
+	/**
+	 * wtf
+	 * @param actionEvent
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	@FXML
 	private void submitArtikel(ActionEvent actionEvent) throws ClassNotFoundException, SQLException {
 		con();
@@ -313,7 +340,11 @@ public class PrimaryController {
 			throw e;
 		}
 	}
-		
+		/**
+		 * setzt die Daten aus der atenbank in die Artikel Tabelle
+		 * @param psData
+		 * @throws ClassNotFoundException
+		 */
 		private void populatePosten (ObservableList<Posten> psData) throws ClassNotFoundException {
 			artikelTable.setItems(psData);
 			
@@ -335,7 +366,7 @@ public class PrimaryController {
 	@FXML
 	private TableColumn<Posten, Integer> artpreis = new TableColumn<>();
 	
-	@FXML
+	/*@FXML
 	public void newDate(String date) throws ClassNotFoundException, SQLException {
 		String stmt = "SELECT * FROM posten ORDER BY datum DESC;";
 		
@@ -349,7 +380,7 @@ public class PrimaryController {
 		//}
 		
 		DBUtil.dbExcecuteQuery(stmt);
-	}
+	}*/
 	
 	@FXML
 	public TextField datum = new TextField();
@@ -395,13 +426,19 @@ public class PrimaryController {
 	  
 	  //mehrere Textfelder für die Abfrage ist bisher die einzige möglichkeit
 	  //mehrere Textareas zu einem sql Befehl zusammenfügen
-	  
+	  /**
+	   * setzt den Textformatter der TextArea
+	   */
 	  @FXML
 	  public void setRechnung() {
 		  DataField.textFormatterProperty();
 		  
 	  }
 	  
+	  /**
+	   * holt sich die Daten aus der ausgewählten Tabelle und trägt sie in eine Text Area ein mit dem Primary Key am Anfang
+	   * @param event
+	   */
 	  @FXML
 	  public void getKunde(ActionEvent event) {
 		  //DataField.setText(kundenTable.getSelectionModel().toString());
@@ -428,7 +465,10 @@ public class PrimaryController {
 					  
 		  }
 	  }
-	  
+	  /**
+	   * holt sich die Daten aus der ausgewählten Tabelle und trägt sie in eine Text Area ein mit dem Primary Key am Anfang
+	   * @param event
+	   */
 	  @FXML
 	  public void getAdresse(ActionEvent event) {
 		  
@@ -444,7 +484,7 @@ public class PrimaryController {
 			  int plz = adresse.getadrplz();
 			   
 			  
-			  
+			  //DAO
 			  String adr = nr+ ", Ort: " +ort+ ", Haus NR: " +ha+ ", Straße: " +strasse+ ", PLZ: " +plz;
 			  
 			  DataFieldAdr.setText(adr);
@@ -452,6 +492,10 @@ public class PrimaryController {
 		  }
 	  }
 	  
+	  /**
+	   * Ausgewählte KFZ Daten aus der Tabelle  im Textfeld anzeigen lassen
+	   * @param event
+	   */
 	  @FXML
 	  public void getKFZ(ActionEvent event) {
 		  //DataField.setText(kfzTable.ger);
@@ -490,7 +534,12 @@ public class PrimaryController {
 		  
 	  }
 	  
-	  
+	  /**
+	   * Datum wird zuerst eingelesen und dann mitsamt der anderen Daten aus den vorherigen Textfeldern und einer neuen Rechnungs-ID in die Rechnungstabelle
+	   * eingetragen
+	   * @param event
+	   * @throws SQLException
+	   */
 	  @FXML
 	  public void getDate(ActionEvent event) throws SQLException {
 	  LocalDate myDate = datePicker.getValue();
@@ -507,12 +556,12 @@ public class PrimaryController {
 	  String kfz = DataFieldKfz.getText();
 	  String kfznr[] = kfz.split(","); 
 	  
-	  
+	//DAO
 	  String tst = "SET FOREIGN_KEY_CHECKS=0;";
 	  String prpstmt = "INSERT INTO rechnung (KDNr, AdrNr, FI_ID, Stamm_ID, Datum) VALUES (?, ?, ?, ?, ?);";
 	  String uu = "SET FOREIGN_KEY_CHECKS=1;";
 	  
-	  
+	//DAO
 	  	String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
 		String user = "root";
 		String pass = "";
@@ -546,7 +595,7 @@ public class PrimaryController {
 			System.out.println("betroffene Zeilen: "+ rows);
 			System.out.println("ok " + ll);
 			
-			
+			//DAO
 			String renummer = "SELECT ReNr FROM rechnung WHERE KDNr = ?  AND AdrNr = ? AND FI_ID = ?;";
 			PreparedStatement prepStmtRn = conn.prepareStatement(renummer);
 			
@@ -559,6 +608,7 @@ public class PrimaryController {
 			
 			if(resultat.next()) {
 				System.out.println(resultat.getString("ReNr"));
+				// unterer Befehl allein soll bleiben
 				Rechnungsnummer.setText("Rechnungsnummer: " + resultat.getString("ReNr"));
 				Rin = resultat.getString("ReNr");
 				System.out.println(Rin);
@@ -589,6 +639,10 @@ public class PrimaryController {
 	  
 	  public static String arid = "test";
 	  
+	  /**
+	   * ein neues Fenster wird erstellt und das Hauptfenster wird eingefroren
+	   * @throws IOException
+	   */
 	  @FXML
 		private void rechnungSelect() throws IOException {
 			
@@ -750,8 +804,8 @@ public class PrimaryController {
 		});
 	
 	SortedList<Kunde> sortedData = new SortedList<>(filteredData);
-	//kunde filter am ende der der mitte damit wir besser den code unterscheiden können der somit die endstation jedes mal wenn der
-	//spacken
+	//kunde filter
+	
 	sortedData.comparatorProperty().bind(kundenTable.comparatorProperty());
 	kundenTable.setItems(sortedData);
 		
@@ -776,7 +830,7 @@ public class PrimaryController {
 			if (newValue == null|| newValue.isEmpty()) {
 				return true;
 			}
-			
+			//DAO?
 			String lowerCaseFilter = newValue.toLowerCase();
 			if (String.valueOf(Adresse.getadrid()).indexOf(lowerCaseFilter) != -1) {
 				return true;
@@ -857,7 +911,11 @@ public class PrimaryController {
 		
 	}
 	
-	//KundeListe wird als Daten von Zellen bereitgestellt
+	/**
+	 * die Kunden Daten aus der Datenbank werden in eine Observable List geschrieben
+	 * @param kd
+	 * @throws ClassNotFoundException
+	 */
 	private void  populateKunde (Kunde kd) throws ClassNotFoundException {
 		ObservableList<Kunde> kdData = FXCollections.observableArrayList();
 		kdData.add(kd);
@@ -865,7 +923,11 @@ public class PrimaryController {
 	
 	}
 	
-	//idk
+	/**
+	 * setzt die Daten aus der Observable List in die Tabelle der View
+	 * @param kdData
+	 * @throws ClassNotFoundException
+	 */
 	private void populateKunden (ObservableList<Kunde> kdData) throws ClassNotFoundException {
 		kundenTable.setItems(kdData);
 		
@@ -898,6 +960,13 @@ public class PrimaryController {
 	@FXML
 	private TableColumn<Adresse, Integer> adrHnr = new TableColumn<>();
 	
+	
+	/**
+	 * erschafft eine Observable List mit den Adressdaten aus der Datenbank
+	 * @param actionEvent
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	@FXML
 	private void searchAdressen (ActionEvent actionEvent) throws ClassNotFoundException, SQLException {
 		
@@ -915,12 +984,19 @@ public class PrimaryController {
 			throw e;
 		}
 	}
-	
+	/**
+	 * schreibt die Daten aus der Observable List in die Adressen Tabelle der View
+	 * @param adrData
+	 * @throws ClassNotFoundException
+	 */
 	private void populateAdressen (ObservableList<Adresse> adrData) throws ClassNotFoundException {
 		adrTable.setItems(adrData);
 		
 	}
-	
+	/**
+	 * Update Funktion für die Adressen Tabelle
+	 * @throws SQLException
+	 */
 	@FXML
 	private void UpdateAdresse() throws SQLException{
 		int rowNum = adrTable.getSelectionModel().getSelectedIndex();
@@ -995,7 +1071,14 @@ public class PrimaryController {
 	private TableColumn<KFZ, String> kfzErstZul = new TableColumn<>();
 	
 	
-	//Funktionen für kfz
+	//Funktionen für KFC
+	
+	/**
+	 * erstellt eine Observable List mit den KFC Daten der Datenbank
+	 * @param actionEvent
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	@FXML
 	private void searchKFZs (ActionEvent actionEvent) throws ClassNotFoundException, SQLException {
 		try {
@@ -1012,11 +1095,19 @@ public class PrimaryController {
 		}
 	}
 	
+	/**
+	 * Daten aus der Observable List in die Tabelle eintragen
+	 * @param kfzData
+	 * @throws ClassNotFoundException
+	 */
 	private void populateKFZs (ObservableList<KFZ> kfzData) throws ClassNotFoundException {
 		kfzTable.setItems(kfzData);
 		
 	}
-	
+	/**
+	 * Update Funktion für KFC
+	 * @throws SQLException
+	 */
 	@FXML
 	private void UpdateKFZ () throws SQLException{
 		int rowNum = kfzTable.getSelectionModel().getSelectedIndex();
@@ -1045,7 +1136,7 @@ public class PrimaryController {
 		String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
 		String user = "root";
 		String pass = "";
-		
+		//DAO
 		final String prpstmt = "UPDATE kfz SET Marke = ? , Modell = ?  , HU = ?  , KennZ = ?, kmStand = ?, ErstZul = ? WHERE FI_ID = ?";
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
@@ -1085,7 +1176,14 @@ public class PrimaryController {
 	
 	//Funktionen für Stammdaten
 	//TODO
-	// Stammdaten werden keine neue Insert View bekommen weil das Anlegen von neuen Stammdaten keinen Sinn macht 
+	// Stammdaten werden keine neue Insert View bekommen weil das Anlegen von neuen Stammdaten keinen Sinn macht
+	
+	/**
+	 * Speichert die Stammdaten in eine Observable List
+	 * @param actionEvent
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 		@FXML
 		private void searchStammdaten (ActionEvent actionEvent) throws ClassNotFoundException, SQLException {
 			try {
@@ -1102,6 +1200,11 @@ public class PrimaryController {
 			}
 		}
 		
+		/**
+		 * setzt die Daten aus der Observable List in die Tablelle der View
+		 * @param stammData
+		 * @throws ClassNotFoundException
+		 */
 		private void populateStammdaten (ObservableList<Stammdaten> stammData) throws ClassNotFoundException {
 			stammTable.setItems(stammData);	
 		}
@@ -1130,7 +1233,7 @@ public class PrimaryController {
 			String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
 			String user = "root";
 			String pass = "";
-			
+			//DAO
 			final String prpstmt = "UPDATE stammdaten SET BLZ = ? , Abgesang = ?  , Zahlungsbedingung = ? WHERE Stamm_ID = ?";
 			try {
 				Connection conn = DriverManager.getConnection(url, user, pass);
@@ -1140,7 +1243,7 @@ public class PrimaryController {
 				prp.setString(3, zb);
 				prp.setInt(4, test);
 				int rows = prp.executeUpdate();
-				System.out.println("betroffene Zeilen: "+rows);
+				System.out.println("betroffene Zeilen: "+rows);// 
 			} catch (Exception e) {
 				System.out.println("test");
 			}
@@ -1162,7 +1265,11 @@ public class PrimaryController {
 	
 	
 	
-	
+	/**
+	 * ändert die Posten 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	void changePosten(ActionEvent event) throws IOException{
 		
@@ -1186,16 +1293,23 @@ public class PrimaryController {
 		}
 		
 	}
-	
+	// 34.89
 	@FXML
 	private Circle status;
 	
+	
+	/**
+	 * Verbindung wird mit der Datenbank hergestellt
+	 */
 	@FXML  void con() {
 		DBUtil.dbConnect();
 		changeGreen();
 		dbArea.setText("Datenbankverbindung wurde erfolgreich hergestellt");
 	}
 	
+	/**
+	 * Verbindung mit der Datenbank wird abgebrochen
+	 */
 	@FXML
 	private void dc() {
 		DBUtil.dbDisconnect();
@@ -1203,11 +1317,17 @@ public class PrimaryController {
 		dbArea.setText("Datenbankverbindung wurde erfolgreich unterbrochen");
 	}
 	
+	/**
+	 * der Kreis wird grün gefärbt
+	 */
     public void changeGreen() {
     	//status = new Circle();
     	status.setFill(Paint.valueOf("#7FFF00"));
     }
     
+    /**
+     * der Kreis wird rot gefärbt
+     */
     public void changeRed() {
     	status.setFill(Paint.valueOf("#FF0000"));
     }
@@ -1236,6 +1356,10 @@ public class PrimaryController {
     	
     }
     
+    /**
+     * wechsel zur Kunden-Insert-View
+     * @throws IOException
+     */
     @FXML
 	private void kundeAnlegen () throws IOException {
     	MainExtender.setRoot("KundeSetup");
@@ -1243,13 +1367,20 @@ public class PrimaryController {
     }
     
     
-    
+    /**
+     * wechsel zur KFZ-Insert-View
+     * @throws IOException
+     */
     @FXML
 	private void fahrzeugAnlegen () throws IOException {
     	MainExtender.setRoot("KFZSetup");
     	
     }
     
+    /**
+     * wechsel zur Adresse-Insert-View
+     * @throws IOException
+     */
     @FXML
 	private void adresseAnlegen () throws IOException {
     	MainExtender.setRoot("AdresseSetup");

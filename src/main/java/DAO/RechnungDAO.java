@@ -1,11 +1,13 @@
 package DAO;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import Class.Kunde;
 import Class.Rechnung;
 import application.blueprint.DBUtil;
+import controller.PrimaryController;
 
 public class RechnungDAO {
 
@@ -42,7 +44,31 @@ public class RechnungDAO {
 			
 			return re;
 		}
+	
+	public static void getReNr (int kdid, int adrnr, int kfznr) throws SQLException, ClassNotFoundException
+	{
+		String renummer = "SELECT ReNr FROM rechnung WHERE KDNr = ?  AND AdrNr = ? AND FI_ID = ?;";
+		PreparedStatement prepStmtRn = DBUtil.con.prepareStatement(renummer);
 		
+		prepStmtRn.setInt(1, kdid);
+		prepStmtRn.setInt(2, adrnr);
+		prepStmtRn.setInt(3, kfznr);
+		ResultSet resultat = prepStmtRn.executeQuery();
+		
+		if(resultat.next()) {
+			System.out.println(resultat.getString("ReNr"));
+			//Rechnungsnummer.setText("Rechnungsnummer: " + resultat.getString("ReNr")); //dieser Befehl soll im Controller bleiben
+			PrimaryController.Rin = resultat.getString("ReNr");
+			System.out.println(PrimaryController.Rin);
+			
+			
+			String artid = "SELECT artID FROM artikel WHERE artikelname = ?;";
+			
+			PreparedStatement jj  = DBUtil.con.prepareStatement(artid);
+				
+		}
+		
+	}		
 		
 	
 }
