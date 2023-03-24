@@ -12,8 +12,11 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 import controller.PrimaryController;
+import Class.AufschlagModel;
+import Class.Kunde;
 import Class.Posten;
 import Class.Rechnung;
+import DAO.KundeDAO;
 import DAO.PostenDAO;
 import application.blueprint.DBUtil;
 import application.blueprint.MainExtender;
@@ -30,6 +33,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import controller.PrimaryController;
 
 public class PostenController{
@@ -55,11 +59,48 @@ public class PostenController{
 	
 	System.out.println(PrimaryController.knr);
 	
+ObservableList<Posten> psData = PostenDAO.searchPosten();
+	
+	populatePosten(psData); 
+	
+	artid.setCellValueFactory(cellData -> cellData.getValue().artidproperty().asObject());
+	artname.setCellValueFactory(cellData -> cellData.getValue().artnameproperty());
+	artbeschreibung.setCellValueFactory(cellData -> cellData.getValue().artbeschreibungproperty());
+	//artab.setCellValueFactory(cellData -> cellData.getValue().artabproperty());
+	//artpreis.setCellValueFactory(cellData -> cellData.getValue().kundeidproperty().asObject());
+	//jelp i dont know wie man die Cell ein Datum anzeigen lässt 
 	getKunde();
 	
 	
 	}
 	
+	private void populatePosten (ObservableList<Posten> psList) throws ClassNotFoundException {
+		artikelTable.setItems(psList);
+		
+	}
+	
+	
+	@FXML
+	  TextArea Artikeldata;
+	  
+	 @FXML
+	  public void artikelAnzeigen(ActionEvent actionEvent) {
+		  //hier kommt die Funktion für den berechnen Knopf hin
+		  Artikeldata.setText("");
+		  
+		  
+	  }
+	 
+	 public static void berechnung() {
+		  double bAufschlag = AufschlagModel.BAufschlag;
+		  double BAufschlagB = 1+(100/bAufschlag);
+		  
+		  double sAufschlag = AufschlagModel.SkontoAufschlag;
+		  double SAufschlagB = 1+(100/sAufschlag);
+		  
+		  double gAufschlag = AufschlagModel.GewinnAufschlag;
+		  double GAufschlagB = 1+(100/gAufschlag);
+	  }
 	
 	@FXML
 	private void getKunde() throws SQLException {
@@ -112,7 +153,7 @@ public class PostenController{
 	@FXML
 	private void getAdresse() throws SQLException {
 		
-		 
+		 //pls dont look
 		  
 		  
 		  	String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
@@ -302,8 +343,9 @@ public class PostenController{
 		}*/
 		/**
 		 * stellt eine Verbindung mit der Datenbank her
+		 * @throws SQLException 
 		 */
-		@FXML  void con() {
+		@FXML  void con() throws SQLException {
 			DBUtil.dbConnect();
 			
 		}

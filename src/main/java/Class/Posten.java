@@ -14,12 +14,12 @@ public class Posten {
 	private IntegerProperty artid;
 	private StringProperty artname;
 	private StringProperty artbeschreibung;
-	private  Date artab;
-	public Date getArtab() {
+	private  SimpleDateFormat artab;
+	public SimpleDateFormat getArtab() {
 		return artab;
 	}
 
-	public void setArtab(Date artab) {
+	public void setArtab(SimpleDateFormat artab) {
 		this.artab = artab;
 	}
 
@@ -31,7 +31,7 @@ public class Posten {
 		this.artid = new SimpleIntegerProperty();
 		this.artname = new SimpleStringProperty();
 		this.artbeschreibung = new SimpleStringProperty();
-		this.artab = new Date();
+		this.artab = new SimpleDateFormat();
 		this.artpreis = new SimpleIntegerProperty();
 	}
 	
@@ -76,17 +76,17 @@ public class Posten {
 		return artbeschreibung;
 	}
 	
-	public Date getartab() {
+	public SimpleDateFormat getartab() {
 		return artab;
 	}
 
-	public void setartab(Date artab) {
+	public void setartab(SimpleDateFormat artab) {
 		this.artab = artab;
 	}
 	
-	/*public StringProperty artabproperty() {
+	public SimpleDateFormat artabproperty() {
 		return artab;
-	}*/
+	}
 	
 	public Integer getartpreis() {
 		return artpreis.get();

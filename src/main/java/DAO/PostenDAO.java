@@ -11,7 +11,7 @@ import javafx.collections.ObservableList;
 public class PostenDAO {
 
 	public static Posten searchPosten (String artID) throws SQLException, ClassNotFoundException{
-		String selectStmt = "SELECT * FROM posten WHERE KDNr="+artID;
+		String selectStmt = "SELECT * FROM artikel WHERE artikelNr = " + artID;//+artID;
 		
 		try {
 			ResultSet rsKd = DBUtil.dbExcecuteQuery(selectStmt);
@@ -33,20 +33,20 @@ public class PostenDAO {
 		
 		if (rs.next()) {
 			ps = new Posten();
-			ps.setartid(rs.getInt("art_ID"));
-			//ps.setartname(rs.getString("artikelname"));
-			//ps.setartbeschreibung(rs.getString("artikelbeschreibung"));
-			ps.setartab(rs.getDate("datum"));
-			//ps.setartpreis(rs.getInt("preis"));
+			ps.setartid(rs.getInt("artikelNr"));
+			ps.setartname(rs.getString("artikelname"));
+			ps.setartbeschreibung(rs.getString("artikelEKpreis"));
+			//ps.setartab(rs.getDate("datum"));
+			ps.setartpreis(rs.getInt("anzahl"));
 			
 			
 		}
 		
 		return ps;
 	}
-	
+	//List die den Posten mit einzelnen Items befüllt
 	public static ObservableList<Posten> searchPosten () throws SQLException, ClassNotFoundException{
-		String selectStmt = "SELECT * FROM posten";
+		String selectStmt = "SELECT * FROM artikel";
 		try {
 			ResultSet rskd = DBUtil.dbExcecuteQuery(selectStmt);
 			
@@ -66,23 +66,25 @@ public class PostenDAO {
 	//instanzierung von Kunde überprüfung
 	private static ObservableList<Posten> getPostenList(ResultSet rs) throws SQLException, ClassNotFoundException {
 		
-		ObservableList<Posten> psList = FXCollections.observableArrayList();
+		ObservableList<Posten> psList = FXCollections.observableArrayList(); 
 		
 		while (rs.next()) {
 			Posten ps = new Posten();
 			//kd.setkundeid(rs.getInt("KDNr"));
 			//kd.setnachname(rs.getString("NName"));
 			//kd.setvorname(rs.getString(""));
-			ps.setartid(rs.getInt("art_ID"));
-			ps.setartname(rs.getString(""));
-			//ps.setartbeschreibung(rs.getString("VName")); TODO
-			ps.setartab(rs.getDate("datum"));
-			//ps.setartpreis(rs.getInt("Tel"));
-			
+			ps.setartid(rs.getInt("artikelNr"));
+			ps.setartname(rs.getString("artikelName"));
+			ps.setartbeschreibung(rs.getString("artikelEKpreis"));
+			ps.setartbeschreibung(rs.getString("artikelEKpreis"));
+			//ps.setartab(rs.getDate("datum"));
+			ps.setartpreis(rs.getInt("anzahl"));
+			//
 			//kd.setemail(rs.getString("Email"));
 			//kd.settel(rs.getString("Tel"));
 			
-			psList.add(ps);
+			psList.add(ps);//
+			
 		}
 		return psList;
 }}

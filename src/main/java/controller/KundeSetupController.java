@@ -81,9 +81,10 @@ public class KundeSetupController {
 	
 	/**
 	 * verbindung mit der Datenbank herstellen
+	 * @throws SQLException 
 	 */
 	@FXML
-	private void con() {
+	private void con() throws SQLException {
 		DBUtil.dbConnect();
 		
 	}

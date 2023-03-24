@@ -1,6 +1,7 @@
 package controller;
 
 
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 import Class.Adresse;
+import Class.AufschlagModel;
 import Class.KFZ;
 import Class.Kunde;
 import Class.Posten;
@@ -186,25 +188,24 @@ public class PrimaryController {
 		Kunde kd = KundeDAO.searchKunde(kundeID.getText());
 		
 		populateKunde(kd);
+		String g = "Die Suche nach der Kunden ID war erfolgreich!";
+		System.out.println(g);
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("Fehler bei der suche nach der eingefügten ID");
+			
 		}
 	}
 	
 	/**
 	 * Update Funktion um per doppelklick in einer Zelle den Wert zu überarbeiten und den neuen Wert in die Datenbank hochzuladen
 	 * @throws SQLException
+	 * @throws ClassNotFoundException 
 	 */
 	@FXML
-	private void UpdateKunde() throws SQLException {
+	private void UpdateKunde() throws SQLException, ClassNotFoundException {
 		
-		//Connection con = null;
-		
-		String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
-		String user = "root";
-		String pass = "";
-
 		
 		
 		int rowNum = kundenTable.getSelectionModel().getSelectedIndex();
@@ -220,22 +221,11 @@ public class PrimaryController {
 		int id = kundeID.getCellData(kdnr);
 		
 		
-		
 		//DAO
-		final String prpstmt = "UPDATE kunde SET VName = ? , NName = ?  , email = ?  , Tel = ? WHERE KDNr = ?";
-		try {
-			Connection conn = DriverManager.getConnection(url, user, pass);
-			PreparedStatement prp = conn.prepareStatement(prpstmt);
-			prp.setString(1, vorname);
-			prp.setString(2, nachname);
-			prp.setString(3, email);
-			prp.setString(4, tel);
-			prp.setInt(5, id);
-			int rows = prp.executeUpdate();
-			System.out.println("betroffene Zeilen: "+ rows);
-		} catch (Exception e) {
-			System.out.println("test");
-		}
+		KundeDAO.updateKunde(id, vorname, nachname, email, tel);
+		
+		
+		
 		//DBUtil.dbExcequteUpdate(stmt);
 		
 	}
@@ -358,13 +348,13 @@ public class PrimaryController {
 	private TableColumn<Posten, String> artname = new TableColumn<>();
 	
 	@FXML
-	private TableColumn<Posten, String> artbeschreibung = new TableColumn<>();
+	private TableColumn<Posten, String> artEKpreis = new TableColumn<>();
 	
 	@FXML 
-	private TableColumn<Posten, Date> artab = new TableColumn<>();
+	private TableColumn<Posten, Date> artgültig = new TableColumn<>();
 	
 	@FXML
-	private TableColumn<Posten, Integer> artpreis = new TableColumn<>();
+	private TableColumn<Posten, Integer> artanzahl = new TableColumn<>();
 	
 	/*@FXML
 	public void newDate(String date) throws ClassNotFoundException, SQLException {
@@ -456,7 +446,7 @@ public class PrimaryController {
 			  
 			  
 			  String kd = nr+ ", Vorname: " +vname+ ", Nachname: " +nname+ ", email: " +email+ ", tel: " +tel;
-			  
+			  // String stmt = "INSERT ?,?,?,?  INTO";
 			  //String stmt = "INSERT ?, ?, ?, ?, ? INTO";
 			  
 			  DataField.setText(kd);
@@ -471,7 +461,7 @@ public class PrimaryController {
 	   */
 	  @FXML
 	  public void getAdresse(ActionEvent event) {
-		  
+		  //Adresse adresse = adrTable.getSelectionMode().getSelectedItem();
 		  Adresse adresse = adrTable.getSelectionModel().getSelectedItem();
 		  if (adresse.equals(null)) {
 			  DataField.setText("keine Adresse ausgewählt!");
@@ -539,90 +529,34 @@ public class PrimaryController {
 	   * eingetragen
 	   * @param event
 	   * @throws SQLException
+	 * @throws ClassNotFoundException 
 	   */
 	  @FXML
-	  public void getDate(ActionEvent event) throws SQLException {
+	  public void getDate(ActionEvent event) throws SQLException, ClassNotFoundException {
 	  LocalDate myDate = datePicker.getValue();
 	  //DataField.setText(myDate.toString());
 	  
 	  
 	  
 	  String kd = DataField.getText();
-	  //List<String> KundenNr = Arrays.asList(kd.split(","));
 	  String kdnr[] = kd.split(",");
-	  //System.out.println(kdnr[0]);
 	  String adr = DataFieldAdr.getText();
 	  String adrnr[] = adr.split(",");
 	  String kfz = DataFieldKfz.getText();
-	  String kfznr[] = kfz.split(","); 
+	  String kfznr[] = kfz.split(",");
+	  //kfznr nicht benutzt? lol
 	  
-	//DAO
-	  String tst = "SET FOREIGN_KEY_CHECKS=0;";
-	  String prpstmt = "INSERT INTO rechnung (KDNr, AdrNr, FI_ID, Stamm_ID, Datum) VALUES (?, ?, ?, ?, ?);";
-	  String uu = "SET FOREIGN_KEY_CHECKS=1;";
-	  
-	//DAO
-	  	String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
-		String user = "root";
-		String pass = "";
-	  //
 	  try {
-		  
-		  	//Setup für die PreparedStatements in der Funktion für die Erstellung der Rechnungs ID
-			Connection conn = DriverManager.getConnection(url, user, pass);
-			PreparedStatement aa = conn.prepareStatement(tst);
-			PreparedStatement prp = conn.prepareStatement(prpstmt);
-			PreparedStatement kk = conn.prepareStatement(uu);
-			
-			//die Variablen die für das prepared statement eingesetzt werden
-			prp.setString(1, kdnr[0]);
-			prp.setString(2, adrnr[0]);
-			prp.setString(3, kfznr[0]);
-			prp.setString(4, "4");
-			prp.setObject(5, myDate);
-			
 			//globale variable wird auf den wert der adresse gesetzt
 			knr = kdnr[0];
 			anr = adrnr[0];//TODO weitere globale variablen 
 			arid = kdnr[0];
 			
+			RechnungDAO.reNr(knr, anr, arid, myDate);
 			
-			int test = aa.executeUpdate(); 
-			int rows = prp.executeUpdate();
-			int ll = kk.executeUpdate();
+			RechnungDAO.getrennr(knr, anr, arid);
 			
-			System.out.println("teste " + test);
-			System.out.println("betroffene Zeilen: "+ rows);
-			System.out.println("ok " + ll);
-			
-			//DAO
-			String renummer = "SELECT ReNr FROM rechnung WHERE KDNr = ?  AND AdrNr = ? AND FI_ID = ?;";
-			PreparedStatement prepStmtRn = conn.prepareStatement(renummer);
-			
-			//setzen der neuen Werte in der zweiten Prepared Statement abfrage
-			prepStmtRn.setString(1, kdnr[0]);
-			prepStmtRn.setString(2, adrnr[0]);
-			prepStmtRn.setString(3, kfznr[0]);
-			ResultSet resultat = prepStmtRn.executeQuery();
-			
-			
-			if(resultat.next()) {
-				System.out.println(resultat.getString("ReNr"));
-				// unterer Befehl allein soll bleiben
-				Rechnungsnummer.setText("Rechnungsnummer: " + resultat.getString("ReNr"));
-				Rin = resultat.getString("ReNr");
-				System.out.println(Rin);
-				//Rechnung.setrechnungid(renumme);
-				
-				String artid = "SELECT artID FROM artikel WHERE artikelname = ?;";
-				
-				
-				PreparedStatement jj  = conn.prepareStatement(artid);
-				/*
-				PreparedStatement jj = conn.prepareStatement(artid);
-				jj.setString(1, "test");
-				*/
-			}
+			Rechnungsnummer.setText("Rechnungsnummer: " + Rin);
 			//DBUtil.dbExcequteUpdate(updateStmt);
 		} catch (SQLException e) {
 			System.out.print(e);
@@ -630,7 +564,7 @@ public class PrimaryController {
 		}
 	  
 	  }
-	  //
+	  
 	  public static String Rin = "test";
 	  
 	  public static String knr = "test";
@@ -657,18 +591,48 @@ public class PrimaryController {
 			 //test.setScene();
 			 test.showAndWait();
 		}
+	  /**
+	   * 
+	   */
 	  
+	  public static void berechnung() {
+		  double bAufschlag = AufschlagModel.BAufschlag;
+		  double BAufschlagB = 1+(100/bAufschlag);
+		  
+		  double sAufschlag = AufschlagModel.SkontoAufschlag;
+		  double SAufschlagB = 1+(100/sAufschlag);
+		  
+		  double gAufschlag = AufschlagModel.GewinnAufschlag;
+		  double GAufschlagB = 1+(100/gAufschlag);
+	  }
+	  
+	 @FXML
+	  TextArea artikeldata;
+	  
+	 @FXML
+	  public void artikelAnzeigen(ActionEvent actionEvent) {
+		  //hier kommt die Funktion für den berechnen Knopf hin
+		  artikeldata.setText("test");
+		  
+		  
+	}
+	 @FXML
+	 public static void closeProgramm() throws SQLException {
+	 
+		 DBUtil.dbDisconnect();
+	 
+	 }
+	 
 	 
 	
 	@FXML
 	private void initialize() throws Exception {
 		
 		 
-		
 		try {
-			//NIEMALS DOPPELTE FX:ID HABEN
 			
-		
+		//TODO 
+			
 		//String s = kundeVorname.getCellData(1);
 		//System.out.println(s);
 		//String Stmt = "UPDATE kunde SET VName = " +t+ "";
@@ -690,26 +654,27 @@ public class PrimaryController {
 		artikelBox.getItems().add("");
 		
 		
+		
 		//artikelTable wird mit Daten befüllt
  		artid.setCellValueFactory(cellData -> cellData.getValue().artidproperty().asObject());
-		artab.setCellValueFactory(new PropertyValueFactory <Posten, Date>("artab"));
+		//artEKpreis.setCellFactory(new PropertyValueFactory <Posten, Date>("artab"));
 		artname.setCellValueFactory(cellData -> cellData.getValue().artnameproperty());
-		artpreis.setCellValueFactory(cellData -> cellData.getValue().artpreisproperty().asObject());
+		artanzahl.setCellValueFactory(cellData -> cellData.getValue().artpreisproperty().asObject());
 		
 		// kundenTable mit Werten befüllen
 		kundeID.setCellValueFactory(cellData -> cellData.getValue().kundeidproperty().asObject());
 		kundeVorname.setCellValueFactory(cellData -> cellData.getValue().vornameproperty());
 		kundeVorname.setCellFactory(TextFieldTableCell.forTableColumn());
-		kundeVorname.setOnEditCommit(cellData-> {cellData.getTableView().getItems().get(cellData.getTablePosition().getRow()).setvorname(cellData.getNewValue());/*int rowNum = kundenTable.getSelectionModel().getSelectedIndex(); String t = kundeVorname.getCellData(rowNum);System.out.println(t);*/try {UpdateKunde();} catch (SQLException e) {e.printStackTrace();} }); //Datensatz überschreiben
+		kundeVorname.setOnEditCommit(cellData-> {cellData.getTableView().getItems().get(cellData.getTablePosition().getRow()).setvorname(cellData.getNewValue());/*int rowNum = kundenTable.getSelectionModel().getSelectedIndex(); String t = kundeVorname.getCellData(rowNum);System.out.println(t);*/try {UpdateKunde();} catch (SQLException | ClassNotFoundException e) {e.printStackTrace();} }); //Datensatz überschreiben
 		kundeNachname.setCellValueFactory(cellData -> cellData.getValue().nachnameproperty());
-		kundeNachname.setOnEditCommit(cellData-> {cellData.getTableView().getItems().get(cellData.getTablePosition().getRow()).setnachname(cellData.getNewValue()); int rowNum = kundenTable.getSelectionModel().getSelectedIndex(); String t = kundeVorname.getCellData(rowNum);System.out.println(t);try {UpdateKunde();} catch (SQLException e) {e.printStackTrace();} });
+		kundeNachname.setOnEditCommit(cellData-> {cellData.getTableView().getItems().get(cellData.getTablePosition().getRow()).setnachname(cellData.getNewValue()); int rowNum = kundenTable.getSelectionModel().getSelectedIndex(); String t = kundeVorname.getCellData(rowNum);System.out.println(t);try {UpdateKunde();} catch (SQLException | ClassNotFoundException e) {e.printStackTrace();} });
 		kundeNachname.setCellFactory(TextFieldTableCell.forTableColumn());
 		kundeEmail.setCellValueFactory(cellData -> cellData.getValue().emailproperty());
 		kundeEmail.setCellFactory(TextFieldTableCell.forTableColumn());
-		kundeEmail.setOnEditCommit(cellData-> {cellData.getTableView().getItems().get(cellData.getTablePosition().getRow()).setemail(cellData.getNewValue()); int rowNum = kundenTable.getSelectionModel().getSelectedIndex(); String t = kundeVorname.getCellData(rowNum);System.out.println(t);try {UpdateKunde();} catch (SQLException e) {e.printStackTrace();} });
+		kundeEmail.setOnEditCommit(cellData-> {cellData.getTableView().getItems().get(cellData.getTablePosition().getRow()).setemail(cellData.getNewValue()); int rowNum = kundenTable.getSelectionModel().getSelectedIndex(); String t = kundeVorname.getCellData(rowNum);System.out.println(t);try {UpdateKunde();} catch (SQLException | ClassNotFoundException e) {e.printStackTrace();} });
 		kundetel.setCellValueFactory(cellData -> cellData.getValue().telproperty());
 		kundetel.setCellFactory(TextFieldTableCell.forTableColumn());
-		kundetel.setOnEditCommit(cellData-> {cellData.getTableView().getItems().get(cellData.getTablePosition().getRow()).settel(cellData.getNewValue()); int rowNum = kundenTable.getSelectionModel().getSelectedIndex(); String t = kundeVorname.getCellData(rowNum);System.out.println(t);try {UpdateKunde();} catch (SQLException e) {e.printStackTrace();} });
+		kundetel.setOnEditCommit(cellData-> {cellData.getTableView().getItems().get(cellData.getTablePosition().getRow()).settel(cellData.getNewValue()); int rowNum = kundenTable.getSelectionModel().getSelectedIndex(); String t = kundeVorname.getCellData(rowNum);System.out.println(t);try {UpdateKunde();} catch (SQLException | ClassNotFoundException e) {e.printStackTrace();} });
 		
 		//adressenTable wird mit Daten befüllt
 		adrNr.setCellValueFactory(cellData -> cellData.getValue().adridproperty().asObject());
@@ -767,9 +732,9 @@ public class PrimaryController {
 		con();
 		changeGreen();
 		ObservableList<Kunde> kdData = KundeDAO.searchKunden();
-	
-	populateKunden(kdData); 
-	
+	//Kunden tabelle wird gefüllt
+	populateKunden(kdData);
+	//
 	
 	//Kunde Suchfilter
 	FilteredList<Kunde> filteredData = new FilteredList<>(kdData, b->true);
@@ -793,12 +758,13 @@ public class PrimaryController {
 		else if (String.valueOf(Kunde.getKundeid()).indexOf(lowerCaseFilter) != -1) {
 			return true; // TODO
 		}
-		
-		
+		//idk ob es wirklich ein TODO hier geben sollte
+		// was habe ich bitte geschrieben
 		else {
 			return false;
 		}
 			
+		
 		
 		});
 		});
@@ -814,6 +780,8 @@ public class PrimaryController {
 			System.out.println("Fehler: " + e);
 			throw e;
 		}
+		
+		//
 		
 		//adressen populate Adressen
 		con();
@@ -1024,7 +992,7 @@ public class PrimaryController {
 		String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
 		String user = "root";
 		String pass = "";
-		
+		//DAO
 		final String prpstmt = "UPDATE adresse SET Ort = ? , PLZ = ?  , Str = ?  , HsNr = ? WHERE AdrNr = ?";
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
@@ -1038,7 +1006,7 @@ public class PrimaryController {
 			System.out.println("betroffene Zeilen: "+rows);
 		} catch (Exception e) {
 			System.out.println("test");
-		}
+		} 
 	}
 	//
 	//kfz controlleroverview
@@ -1068,7 +1036,7 @@ public class PrimaryController {
 	private TableColumn<KFZ, Integer> kfzKmStand = new TableColumn<>();
 	
 	@FXML
-	private TableColumn<KFZ, String> kfzErstZul = new TableColumn<>();
+	private TableColumn<KFZ, String> kfzErstZul = new TableColumn<>(); 
 	
 	
 	//Funktionen für KFC
@@ -1146,7 +1114,7 @@ public class PrimaryController {
 			prp.setString(3, hu);
 			prp.setString(4, kennz);
 			prp.setInt(5, kmstand);
-			prp.setString(6, erstzul);
+			prp.setString(6, erstzul); 
 			prp.setInt(7, kfznr);
 			int rows = prp.executeUpdate();
 			System.out.println("betroffene Zeilen: "+rows);
@@ -1300,8 +1268,9 @@ public class PrimaryController {
 	
 	/**
 	 * Verbindung wird mit der Datenbank hergestellt
+	 * @throws SQLException 
 	 */
-	@FXML  void con() {
+	@FXML  void con() throws SQLException {
 		DBUtil.dbConnect();
 		changeGreen();
 		dbArea.setText("Datenbankverbindung wurde erfolgreich hergestellt");
@@ -1312,7 +1281,7 @@ public class PrimaryController {
 	 */
 	@FXML
 	private void dc() {
-		DBUtil.dbDisconnect();
+		//DBUtil.dbDisconnect();
 		changeRed();
 		dbArea.setText("Datenbankverbindung wurde erfolgreich unterbrochen");
 	}

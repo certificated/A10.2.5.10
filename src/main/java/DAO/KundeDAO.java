@@ -36,6 +36,27 @@ public class KundeDAO {
 	public static void updateKunde(int kdid, String kdVorname, String kdNachname, String kdEmail, String kdTel) throws ClassNotFoundException, SQLException {
 		
 		
+		
+		String url = "jdbc:mysql://localhost:3306/kfz_rechnung";
+		String user = "root";
+		String pass = "";
+		
+		
+		final String prpstmt = "UPDATE kunde SET VName = ? , NName = ?  , email = ?  , Tel = ? WHERE KDNr = ?";
+		try {
+			//DBUtil.conn = DriverManager.getConnection(url, user, pass);
+			//DBUtil.dbConnect();
+			PreparedStatement prp = DBUtil.conn.prepareStatement(prpstmt);
+			prp.setString(1, kdVorname);
+			prp.setString(2, kdNachname);
+			prp.setString(3, kdEmail);
+			prp.setString(4, kdTel);
+			prp.setInt(5, kdid);
+			int rows = prp.executeUpdate();
+			System.out.println("betroffene Zeilen: "+ rows);
+		} catch (Exception e) {
+			System.out.println("test");
+		}
 	}
 	
 	public static Kunde getKundeFromResultSet(ResultSet rs)throws SQLException {

@@ -85,6 +85,11 @@ public class KFZDAO {
 			
 										
 		}
+		
+		
+		public static void updateKFZ() {
+			
+		}
 }
 
 

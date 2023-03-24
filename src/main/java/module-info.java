@@ -7,6 +7,7 @@ module application.blueprint {
 	requires java.desktop;
 	requires java.sql;
 	requires transitive javafx.base;
+	requires jsch;
 
 	opens DAO to javafx.fxml;
 	opens controller to javafx.fxml;

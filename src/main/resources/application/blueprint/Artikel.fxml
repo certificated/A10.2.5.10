@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,13 +15,13 @@
 
 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="452.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PostenController">
    <children>
-      <TableView fx:id="artikelTable" layoutX="224.0" layoutY="147.0" prefHeight="191.0" prefWidth="678.0">
+      <TableView fx:id="artikelTable" editable="true" layoutX="224.0" layoutY="147.0" prefHeight="191.0" prefWidth="678.0">
          <columns>
             <TableColumn fx:id="artid" prefWidth="119.20002746582031" text="Artikel Nummer" />
             <TableColumn fx:id="artname" prefWidth="234.4000244140625" text="Artikelname" />
             <TableColumn fx:id="artbeschreibung" prefWidth="128.800048828125" text="gültig an" />
-            <TableColumn fx:id="artab" minWidth="0.0" prefWidth="96.0" text="Einkaufspreis" />
-            <TableColumn prefWidth="95.199951171875" text="Anzahl" />
+            <TableColumn fx:id="artab" minWidth="0.0" prefWidth="96.0" text="EKpreis" />
+            <TableColumn fx:id="artpreis" prefWidth="95.199951171875" text="Anzahl" />
          </columns>
       </TableView>
       <Label fx:id="adresse" layoutX="224.0" layoutY="41.0" prefHeight="26.0" prefWidth="150.0" text="Adresse">
@@ -48,11 +49,11 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="back" layoutX="19.0" layoutY="34.0" mnemonicParsing="false" onAction="#backTo2" prefHeight="26.0" prefWidth="83.0" text="&lt;- Zurück" />
+      <Button fx:id="back" layoutX="15.0" layoutY="19.0" mnemonicParsing="false" onAction="#backTo2" prefHeight="26.0" prefWidth="83.0" text="&lt;- Zurück" />
       <Label fx:id="renummer" layoutX="671.0" layoutY="32.0" text="Rechnungsnummer:" />
-      <Accordion layoutX="14.0" layoutY="147.0">
+      <Accordion layoutX="15.0" layoutY="54.0" prefHeight="240.0" prefWidth="202.0">
         <panes>
-          <TitledPane animated="false" text="untitled 1">
+          <TitledPane animated="false" text="Artikel löschen">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -79,12 +80,20 @@
                   </AnchorPane>
             </content>
           </TitledPane>
-          <TitledPane animated="false" text="untitled 3">
+          <TitledPane animated="false" prefHeight="135.0" prefWidth="202.0" text="Artikel zuweisen">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="EK-Preis" />
+                        <TextField layoutX="14.0" layoutY="52.0" />
+                        <Button layoutX="14.0" layoutY="90.0" mnemonicParsing="false" text="Anzahl " />
+                        <Button layoutX="16.0" layoutY="128.0" mnemonicParsing="false" onAction="#artikelAnzeigen" text="Berechnen" />
+                        <TextField layoutX="73.0" layoutY="90.0" prefHeight="26.0" prefWidth="22.0" text="1" />
+                     </children></AnchorPane>
             </content>
           </TitledPane>
         </panes>
       </Accordion>
+      <TextArea fx:id="Artikeldata" layoutX="15.0" layoutY="323.0" prefHeight="115.0" prefWidth="200.0" text="Art:&#10;EK-Preis:&#10;EK-Datum:&#10;VK-Preis:&#10;Pos-VK:" />
    </children>
 </AnchorPane>
